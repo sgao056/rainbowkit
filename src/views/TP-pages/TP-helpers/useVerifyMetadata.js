@@ -39,7 +39,6 @@ const useVerifyMetadata = () => {
   } 
   async function getMetadata(NFT) {
     if (!NFT.token_uri || !NFT.token_uri.includes("://")) {
-      // console.log("getMetadata() Invalid URI", { URI: NFT.token_uri, NFT });
       return;
     }
     fetch(NFT.token_uri)

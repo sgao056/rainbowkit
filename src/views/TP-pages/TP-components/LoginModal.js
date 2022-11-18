@@ -8,8 +8,10 @@ import { withRouter } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { Network, Alchemy } from "alchemy-sdk";
 
+const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+
 const settings = {
-  apiKey: "Pn4Z8h9eeWxBma-BmOXsW-DJlW_EwiR9",
+  apiKey: alchemyApikey,
   network: Network.ETH_MAINNET
 };
 
@@ -25,7 +27,6 @@ function LoginModal({setWallet, wallet, ...props}) {
             if(totalArray.totalCount!==100 && !totalArray.pageKey){
             setOwnedNft(totalArray.ownedNfts.length>0 ? totalArray.ownedNfts:null);
             }
-            console.log(totalArray.ownedNfts)
         }
     },[modalToggle])
 

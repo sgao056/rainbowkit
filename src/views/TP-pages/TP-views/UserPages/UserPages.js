@@ -20,8 +20,10 @@ import '../../TP-scss/UserPage.scss';
 
 const authorAddress = process.env.REACT_APP_AUTHOR_ADDRESS;
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
+const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+
 const settings = {
-  apiKey: "Pn4Z8h9eeWxBma-BmOXsW-DJlW_EwiR9",
+  apiKey: alchemyApikey,
   network: Network.ETH_MAINNET
 };
 
@@ -39,7 +41,6 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
   useEffect(async()=>{ 
     const totalArray = await alchemy.nft.getNftsForOwner(address)
     if(totalArray.totalCount!==100 && !totalArray.pageKey){
-      console.log(totalArray.ownedNfts)
       setOwnerList(totalArray.ownedNfts.length>0 ? totalArray.ownedNfts:null);
     }
   },[])
@@ -49,7 +50,6 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
         const newArray = [];
         const finder = ownerList.find((item)=>{
           return (
-            // item.contract.address.toLocaleLowerCase() === tokenAddress.toLocaleLowerCase()
             item.contract.address.toLocaleLowerCase() === '0x0770c4e695851addcc3b47ababb99c55187edd49'
           )
         })

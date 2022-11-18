@@ -13,7 +13,6 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { MoralisProvider } from "react-moralis";
 import { Provider } from 'react-redux';
 import { configureStore } from './redux/store';
 
@@ -44,23 +43,16 @@ const wagmiClient = createClient({
 
 const App = React.lazy(() => import('./App'));
 
-const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
-const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
-
 const Main = () => {
   return (
     // prettier-ignore-start
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <MoralisProvider 
-          serverUrl={SERVER_URL} appId={APP_ID}
-        >
           <Provider store={configureStore()}>
             <Suspense fallback={<div className="loading" />}>
               <App/>                        
             </Suspense>
           </Provider>
-        </MoralisProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

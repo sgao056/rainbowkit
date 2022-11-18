@@ -1,13 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import { Button, Input, Spinner, Modal, Card } from 'reactstrap';
 import { Login, Logout, loginPending } from 'redux/actions'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useMoralis, useNativeBalance, useMoralisWeb3Api  } from "react-moralis";
-import { MagicAuthConnector, MagicConnectConnector } from '@everipedia/wagmi-magic-connector';
+import { useAccount, useBalance } from 'wagmi';
+import { Network, Alchemy } from "alchemy-sdk";
+import { MagicAuthConnector } from '@everipedia/wagmi-magic-connector';
 import Metamask from "assets/img/wallets/metamaskWallet.png";
-import { filterTime } from './TP-helpers/useTimeStamp';
 import './TP-scss/login.scss'
+
+const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
+const magicApikey = process.env.REACT_APP_MAGIC_APIKEY;
+const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+
+const settings = {
+  apiKey: alchemyApikey,
+  network: Network.ETH_MAINNET
+};
+
+const alchemy = new Alchemy(settings);
 
 function LoginPage({
   wallet,
@@ -15,103 +26,88 @@ function LoginPage({
   setLoginPending,
   ...props
 }) {
-  const { data: balance } = useNativeBalance(props);
-  const { isAuthenticating, authenticate, isAuthenticated, account } = useMoralis();
+
+  const { data:balance }  = useBalance();
+  const { isConnecting, isConnected, address } = useAccount();
   const [ email, setEmail ] = useState("");
   const [ pending, setPending ] = useState(false);
   const [ resource, setResource ] = useState(null)
-  const Web3Api = useMoralisWeb3Api();
-  const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
-  const magicApikey = process.env.REACT_APP_MAGIC_APIKEY;
 
   const loginMagic = async () => {
-    setPending(true)
-    setResource("magic-link")
-    await authenticate({
-      provider: "magicLink",
-      email,
-      apiKey: magicApikey,
-      network: "mainnet"
-    })
-    .then(async (item)=>{
-      if(item){
-        const signatureData = item.attributes.authData.moralisEth
-        signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
-        fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
-          method:"POST"
-        })
-        .then(res=>res.json())
-        .then(res=>{
-          const createTime = new Date()
-          localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:filterTime(createTime)}))
-        })
-        props.history.push('/guest')
-      }
-      else{
-        alert("You need to sign, please try again!")
-      }
-    })
-    .catch(()=>{
-      alert("System inner problem!")
-    })
+    // setPending(true)
+    // setResource("magic-link")
+    // await authenticate({
+    //   provider: "magicLink",
+    //   email,
+    //   apiKey: magicApikey,
+    //   network: "mainnet"
+    // })
+    // .then(async (item)=>{
+    //   if(item){
+    //     const signatureData = item.attributes.authData.moralisEth
+    //     signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
+    //     fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
+    //       method:"POST"
+    //     })
+    //     .then(res=>res.json())
+    //     .then(res=>{
+    //       const createTime = new Date()
+    //       localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:filterTime(createTime)}))
+    //     })
+    //     props.history.push('/guest')
+    //   }
+    //   else{
+    //     alert("You need to sign, please try again!")
+    //   }
+    // })
+    // .catch(()=>{
+    //   alert("System inner problem!")
+    // })
   };
 
-  const loginMoralis = async (connectorId) => {
-   if(!window.ethereum){
-      alert('MetaMask need to be installed!');
-    }
-    else{
-      setResource("moralis")
-      setEmail('')
-      await authenticate({ 
-        provider: connectorId,
-        signingMessage:"Please sign here to login by your metamask wallet!"
-      })
-      .then(async (item)=>{
-        if(item){
-          const signatureData = item.attributes.authData.moralisEth
-          signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
-          fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
-            method:"POST"
-          })
-          .then(res=>res.json())
-          .then(res=>{
-            const createTime = new Date().toUTCString()
-            localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:createTime}))
-          })
-          props.history.push('/guest')
-        }
-        else{
-          alert("You need to sign, please try again!")
-        }
-      })
-    }
+  const loginRainbowKit = async (connectorId) => {
+  //  if(!window.ethereum){
+  //     alert('MetaMask need to be installed!');
+  //   }
+  //   else{
+  //     setResource("Rainbowkit")
+  //     setEmail('')
+  //     await authenticate({ 
+  //       provider: connectorId,
+  //       signingMessage:"Please sign here to login by your metamask wallet!"
+  //     })
+  //     .then(async (item)=>{
+  //       if(item){
+  //         const signatureData = item.attributes.authData.moralisEth
+  //         signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
+  //         fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
+  //           method:"POST"
+  //         })
+  //         .then(res=>res.json())
+  //         .then(res=>{
+  //           const createTime = new Date().toUTCString()
+  //           localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:createTime}))
+  //         })
+  //         props.history.push('/guest')
+  //       }
+  //       else{
+  //         alert("You need to sign, please try again!")
+  //       }
+  //     })
+  //   }
   }
 
   const checkList = async () => {
     setLoginPending({pending:true})
-    
-    let totalArray = []
-    const ownersList = await Web3Api.token.getNFTOwners({
-        address:tokenAddress,
-        chain:"eth"
-    })
-    totalArray = totalArray.concat(ownersList.result)
-    if(ownersList.cursor){
-      const newOwnerList = await Web3Api.token.getNFTOwners({
-          address:tokenAddress,
-          chain:"eth",
-          cursor:ownersList.cursor
-      })
-      totalArray = totalArray.concat(newOwnerList.result)
-    }
-
     let number = 0
-    totalArray.forEach((item)=>{
-      if(item.owner_of === account){
-        number +=1
-      }
-    })
+    const totalArray = await alchemy.nft.getNftsForOwner(address)
+    if(totalArray.totalCount!==100 && !totalArray.pageKey){
+      totalArray.ownedNfts.forEach(item=>{
+        if(item.contract.address.toLocaleLowerCase() === tokenAddress){
+          number += 1
+        }
+      })  
+    }
 
     fetch('http://localhost:8080/holders',{
         method:"GET"
@@ -120,7 +116,7 @@ function LoginPage({
     .then(async response => {
       let flag = null
       response.forEach((item)=>{
-        if(item.wallet === account){
+        if(item.wallet.toLowerCase() === address.toLowerCase()){
           flag = item.id
         }
       })
@@ -133,7 +129,7 @@ function LoginPage({
             },
             body: JSON.stringify(
               {
-                wallet: account,
+                wallet: address,
                 email,
                 resource,
                 holdingNumbers: number,
@@ -153,12 +149,12 @@ function LoginPage({
           .then(
             res=>{
               res.forEach(item=>{
-                if(item.wallet === account){
+                if(item.wallet.toLowerCase() === address.toLowerCase()){
                   flag = item.id
                 }
               })
               setWallet({
-                wallet:account,
+                wallet:address,
                 email,
                 balance,
                 resource,
@@ -199,7 +195,7 @@ function LoginPage({
             .then(result=>result.json())
             .then((result)=>{
               setWallet({
-                wallet:account,
+                wallet:address,
                 email,
                 balance,
                 resource,
@@ -218,9 +214,9 @@ function LoginPage({
   }
 
   useEffect(async ()=>{
-    if(isAuthenticated && account){
+    if(isConnected && address){
       localStorage.setItem("auth", JSON.stringify({
-        wallet:account,
+        wallet:address,
         email,
         balance,
         resource,
@@ -229,7 +225,7 @@ function LoginPage({
       }));
       await checkList();
     }
-  },[isAuthenticated])
+  },[isConnected])
 
   useEffect(()=>{
     if(localStorage.getItem("auth")){
@@ -271,7 +267,7 @@ function LoginPage({
             setEmail(e.target.value);
           }}
         />
-        <Button className='login_create_account w-100 ' onClick={loginMagic} disabled={isAuthenticating}>
+        <Button className='login_create_account w-100 ' onClick={loginMagic} disabled={isConnecting}>
           <h5 className="m-0 p-0">
             Login by email
           </h5>
@@ -281,8 +277,8 @@ function LoginPage({
         </div>
         <Button 
           className='login_metamask w-100 d-flex align-items-center jsutify-content-between' 
-          onClick={()=>{loginMoralis("injected")}} 
-          disabled={isAuthenticating}
+          onClick={loginRainbowKit} 
+          disabled={isConnecting}
         >
             <img className='login_metamask_icon' src={Metamask} alt="" />
             {

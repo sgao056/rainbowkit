@@ -93,10 +93,6 @@ const Portal = () => {
       });
   }, []);
 
-  useEffect(()=>{
-    console.log(blogs)
-  },[blogs])
-
   const beforeunload = async () => {
     await fetch('http://localhost:8080/post/draft', {
       method: 'DELETE',

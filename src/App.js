@@ -69,20 +69,6 @@ const App = ({ setLoginPending, wallet, setWallet, clearWallet, ...props}) => {
     return flag
   }
 
-  useEffect(async ()=>{
-    if(address && localStorage.getItem('auth')){
-      const lastAuth = JSON.parse(localStorage.getItem('auth'))
-      if(address !== lastAuth.wallet && lastAuth.resource === "moralis"){
-        await clearWallet();
-        localStorage.removeItem("auth");
-        localStorage.removeItem("token");
-        await disconnect().then(
-          window.location.replace("/#/login")          
-        );
-      }
-    }
-  },[address])
-
   useEffect(()=>{
     if(chain){
       if(chain.id !== 1){
@@ -121,12 +107,6 @@ const App = ({ setLoginPending, wallet, setWallet, clearWallet, ...props}) => {
 
   useEffect( async ()=>{
     if(localStorage.auth && JSON.parse(localStorage.auth).resource === 'magic-link'){
-      setLoginPending({pending:true})
-      setWallet(
-        JSON.parse(localStorage.auth)
-      )
-    }
-    if(localStorage.auth && JSON.parse(localStorage.auth).resource === 'moralis'){
       setLoginPending({pending:true})
       setWallet(
         JSON.parse(localStorage.auth)

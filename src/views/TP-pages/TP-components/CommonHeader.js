@@ -1,15 +1,5 @@
 import React,{useState} from 'react'
-import {
-    Row,
-    Nav, 
-    NavItem,
-    NavLink,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    DropdownToggle,
-    Spinner
-  } from 'reactstrap';
+import { Row, Nav, NavItem, NavLink, Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Spinner} from 'reactstrap';
 import classnames from 'classnames';
 import { Colxx } from 'components/common/CustomBootstrap';
 import { useDisconnect } from 'wagmi';
@@ -162,13 +152,13 @@ function GuestHeader({loginPendingState, wallet, setWallet, clearWallet, ...prop
                         <Nav tabs className="separator-tabs ml-0 mb-0">
                             <NavItem className='h-100'>
                             <NavLink
-                                className={classnames({
-                                active: activeTab === 'Post',
-                                'nav-link': true,
-                                })}
-                                onClick={() => setActiveTab('Post')}
-                                to="#"
-                                location={{}}
+                            className={classnames({
+                            active: activeTab === 'Post',
+                            'nav-link': true,
+                            })}
+                            onClick={() => setActiveTab('Post')}
+                            to="#"
+                            location={{}}
                             >
                                 <h5 className='font-weight-bold d-flex justify-content-center w-100'>
                                 <i className={postAuth ? '':'simple-icon-lock mr-2'}/>
@@ -178,13 +168,13 @@ function GuestHeader({loginPendingState, wallet, setWallet, clearWallet, ...prop
                             </NavItem>
                             <NavItem className='h-100'>
                             <NavLink
-                                className={classnames({
-                                active: activeTab === 'NFT',
-                                'nav-link': true,
-                                })}
-                                onClick={() => setActiveTab('NFT')}
-                                to="#"
-                                location={{}}
+                            className={classnames({
+                            active: activeTab === 'NFT',
+                            'nav-link': true,
+                            })}
+                            onClick={() => setActiveTab('NFT')}
+                            to="#"
+                            location={{}}
                             >
                                 <h5 className='font-weight-bold d-flex justify-content-center w-100'>
                                 NFT
@@ -300,8 +290,6 @@ function GuestHeader({loginPendingState, wallet, setWallet, clearWallet, ...prop
                             :
                             <button type="button" 
                             onClick={()=>{
-                                console.log("!!!")
-                                console.log(loginPendingState)
                                 if(!loginPendingState.pending){
                                     props.history.push('/login')
                                 }

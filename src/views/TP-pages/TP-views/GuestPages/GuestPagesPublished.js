@@ -22,8 +22,10 @@ import useVerifyMetadata from '../../TP-helpers/useVerifyMetadata';
 
 const authorAddress = process.env.REACT_APP_AUTHOR_ADDRESS;
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
+const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+
 const settings = {
-  apiKey: "Pn4Z8h9eeWxBma-BmOXsW-DJlW_EwiR9",
+  apiKey: alchemyApikey,
   network: Network.ETH_MAINNET
 };
 

@@ -13,9 +13,6 @@ const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS;
 
 function AirdropPage({wallet}) {
     const { address, isConnected } = useAccount();
-    useEffect(()=>{
-      console.log(address)
-    })
     const [ pending, setPending ] = useState(false);
     const [ dropAddress, setDropAddress ] = useState('');    
     const { data: signer, isError, isLoading } = useSigner()

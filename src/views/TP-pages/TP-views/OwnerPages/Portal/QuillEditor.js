@@ -29,9 +29,10 @@ function QuillEditor(props) {
     formats: ["video", "link", "image", "font", "size", "bold", 'italic', 'underline',"align"], // Important
   });
 
+
   useEffect(()=>{
-    if(props && props.data){
-      const { data } = props
+    const { data } = props
+    if(data){
       if(data !== undefined && quill){
         quill.setContents(JSON.parse(JSON.parse(data.delta)))
         setButtonPined(data.pined)
@@ -40,7 +41,8 @@ function QuillEditor(props) {
   },[quill])
 
   const handleQuill = (html) => {
-    if(!props.data){
+    const { data:propsData } = props
+    if(!propsData){
       if(window.confirm("Are you sure you want to post?") === true){
         if(html){
           const data = {
