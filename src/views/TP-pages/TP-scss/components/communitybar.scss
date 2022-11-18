@@ -1,0 +1,47 @@
+.community_box{
+    z-index:100;
+    flex-direction:column;
+    position: fixed; 
+    height:100vh; 
+    width:116px;
+    border-right:1px solid;
+
+    .community_top_logo_box{
+        width:116px;
+        height:200px;
+        .community_top_logo{
+            width:114px;
+            height:114px;
+            z-index:1;
+        }
+    }
+
+    .community_top_item_box{
+        width: 116px;
+        height: 116px;
+        .community_top_item{
+            width:60px;
+            height:60px;
+            background-color: grey;
+            border-radius: 10px;
+        }
+        .community_top_item_focus{
+            width:60px;
+            height:60px;
+            background-color: grey;
+            border-radius: 10px;
+            border: 5px solid greenyellow;
+        }
+    }
+
+    .community_bottom_image_box{
+        width:116px;
+        height:200px;
+        .community_bottom_image{
+            width:80px;
+            height:80px;
+            border-radius: 40px;
+        }
+    }
+    
+}

@@ -1,0 +1,370 @@
+
+$guest_header_lg: 100px;
+$guest_header_sm: 150px;
+
+h5{
+    margin-bottom: 20px;
+}
+
+ul{
+    li{
+        color: #888888;
+    }
+}
+
+.background_light{
+    z-index:0;
+    height:20vw;
+    width:60vw;
+    border-radius:0 0 300px 300px;
+    position:absolute;
+    top:100px;
+    right:0;
+    background-image:radial-gradient(ellipse farthest-side at top, rgba(80, 154, 185, 1),rgba(52, 58, 64, 0.2), rgba(52, 58, 64, 0));
+    @media screen and (max-width: 992px) {
+        top:150px;
+    }
+}
+.background_light_post{
+    z-index:0;
+    height:20vw;
+    width:60vw;
+    border-radius:0 0 300px 300px;
+    position:absolute;
+    top:100px;
+    right:0;
+    background-image:radial-gradient(ellipse farthest-side at top, rgba(80, 154, 185, 1),rgba(52, 58, 64, 0.2), rgba(52, 58, 64, 0));
+    @media screen and (max-width: 992px) {
+        top:100px;
+    }
+}
+
+.guest_header{
+    background-color: #1a1a1a;
+    height:$guest_header_lg;
+    @media screen and (max-width: 992px) {
+        height:$guest_header_sm;
+    }
+    .guest_header_box{
+        position:relative;
+        flex-direction:column;
+        .guest_header_information{
+            .guest_header_logo{
+                height:60px;
+                width:60px;
+                border-radius:30px;
+                border: 5px solid;
+            }
+            .guest_header_info{
+                flex-direction:column;
+                height:60px;
+                .guest_header_info_subinfo{
+                    flex-direction:column;
+                    h1, h5 {
+                        height:50%;
+                    }
+                }
+            }
+            .guest_header_right{
+                height:80%;
+                flex-direction:column;
+                .guest_header_right_subdiv{
+                    height:50%;
+                    .dropdown-toggle::after{
+                        font-size: 20px;
+                        // display: none;
+                    }
+                    .guest_header_email{
+                        border:2px solid;
+                        background-color: transparent;
+                        border-radius: 20px;
+                        height:40px;
+                        width:250px;
+                        margin-bottom: 0;
+                        @media screen and (max-width: 992px) {
+                            width: 140px;
+                            height:30px;
+                            padding-top: 0;
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.guest_post{
+    width:100%;
+    .guest_post_login_bar{
+        width:390px;
+        height:60px;
+        @media screen and (max-width: 992px) {
+            width:100%;
+        }
+        .guest_post_login_image{
+            border: 5px solid white;
+            height:60px !important;
+            width:60px !important;
+            border-radius: 30px;
+            @media screen and (max-width: 992px) {
+                border: 2px solid white;
+                height:40px !important;
+                width:40px !important;
+            }
+        }
+        .guest_post_login_info{
+            flex-direction: column;
+            div{
+                padding: 0 20px;
+                height:50%;
+                display: flex;
+                align-items: center;
+            }
+        }
+        .guest_post_login_inform{
+            z-index: 50;
+            background-color: #4A4A4A;
+            min-width: 150px;
+            padding: 15px;
+            margin:10px 0;
+            border-radius: 10px;
+            @media screen and (max-width: 992px) {
+                padding: 10px;
+                min-width: 100px;
+            }
+        }
+    }
+
+    .guest_post_blog_image{
+        border-radius:10px;
+    }
+    
+    .guest_post_blog_portrait{
+        height:30px; 
+        width:30px; 
+        border-radius:15px;
+    }
+    
+    .guest_post_card{
+        border-radius: 10px;
+        width:390px;
+        @media screen and (max-width: 992px) {
+            width:100%;
+            margin-bottom: 200px;
+        }
+        .guest_post_card_icon{
+            transform:scale(1.5);
+        }
+        .guest_post_button{
+            background-color: transparent;
+            border:none;
+            border-radius: 10px;
+            z-index: 99;
+        }
+    }   
+}
+
+.guest_NFT{
+    @media screen and (max-width: 992px) {
+        margin-bottom: 200px;
+    }
+    .guest_NFT_row{
+        .guest_NFT_left_box{
+            margin-top: 100px;
+            .guest_NFT_left_nft{
+                left:auto;
+                right:auto;
+                top:150px;
+                position: fixed;
+                height:450px;
+                width:450px;
+                z-index: 99;
+                border-radius: 40px;
+                @media screen and (max-width: 992px) {
+                    top:0;
+                    position:static;
+                    height:300px;
+                    width:300px;
+                    z-index: 99;
+                    border-radius: 40px;
+                }
+            }
+        }
+        .guest_NFT_right_box{
+            margin-top: 100px;
+            min-width: 300px;
+            max-width: 390px;
+    
+            .guest_dash{
+                border-top: thin solid #888888;
+                height:20px;
+            }
+            .guest_NFT_right_tag{
+                border: 1px solid;
+                padding: 2px;
+                height:22px;
+                margin-right: 30px;
+                h5{
+                    margin-top:0 !important;
+                }
+            }
+    
+            .guest_NFT_right_claim{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 45px;
+                background: linear-gradient(-45deg, transparent 12px, #ffffff 0) right,
+                                linear-gradient(135deg, transparent 12px, #ffffff 0) left;
+                background-size: 51% 100%;
+                background-repeat: no-repeat;
+            }
+    
+            .guest_NFT_right_button{
+                color:#ffffff;
+                border:none;
+                border-radius: 0;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                background: 
+                    linear-gradient(-45deg, transparent 12px, black 0) right,
+                    linear-gradient(135deg, transparent 12px, black 0) left;
+                background-size: 51% 100%;
+                background-repeat: no-repeat;
+                z-index: 99;
+                @media screen and (max-width: 992px) {
+                    background-size: 51% 100%;
+                }
+            }
+    
+            .guest_NFT_right_details {
+                padding-left: 20px;
+                li{
+                    font-size: 10px;
+                }
+            }
+
+            .guest_NFT_holders_cell{
+                width:96px;
+                height:120px;                    
+                z-index: 90;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .guest_NFT_holders_blockie{
+                    width:80px !important;
+                    height:80px !important;
+                    border-radius: 40px;
+                    border:3px solid;
+                    z-index: 90;
+                }
+            }
+        }
+    }
+}
+
+.guest_about{
+    @media screen and (max-width: 992px) {
+        margin-bottom: 200px;
+    }
+    .guest_about_logo{
+        border-radius:50px;
+        width:100px;
+        height:100px;
+        @media screen and (max-width: 992px) {
+            border-radius:25px;
+            width:50px;
+            height:50px;
+        }
+    }
+    .guest_about_item{
+        height:60px;
+        .guest_about_item_linkbox{
+             .guest_about_item_link{
+                width:20px;
+                height:20px;
+            }
+        }
+        .guest_about_item_linkbox:hover{
+            cursor: pointer;
+        }
+    }
+    .guest_about_item_image{
+        width:30px;
+    }
+    .guest_about_item_description{
+        height:80%;
+        border-radius:10px;
+        background-color:#4A4A4A;
+        z-index: 50;
+    }
+}
+.ql-editor{
+    height:auto !important;
+}
+
+.blog_item_box{
+    width:100%;
+    margin:40px 0;
+    border-bottom: 1px solid;
+    height:auto !important;
+    .blog_item{
+        width:500px;
+        p{
+            width:100%;
+        }
+        iframe{
+            width:500px;
+            height:300px !important;
+            margin:0;
+        }
+    } 
+}
+
+.pin_button{
+    float:right !important;
+    background-color: #304d72 !important;
+    width:100px !important;
+    height:30px !important;
+    color:#ffffff !important;
+}
+.pined_button{
+    float:right !important;
+    background-color: #304d72 !important;
+    width:100px !important;
+    height:30px !important;
+    color:aqua !important;
+}
+
+.guest_page{
+    .modal{
+        height:100vh;
+        width:100vw;
+        display: flex !important;
+        .modal-dialog{
+            width:800px !important;
+            max-width: 800px;
+            margin:auto;
+            .modal-content{
+                width:100%;
+            }
+        }
+    }
+}
+
+.pined_mark{
+    height:40px;
+    width:120px;
+    font-size: 18px;
+    @media screen and (max-width: 992px) {
+        height:30px;
+        width:80px;
+        font-size: 12px;
+    }
+}
+
+.card:hover{
+    cursor: pointer;
+}

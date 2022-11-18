@@ -1,0 +1,25 @@
+.NFT_common_header{
+    height:100px ; 
+    border-bottom:1px solid;
+    .NFT_common_header_logo{
+        height:60px;
+        width:60px;
+    }
+    .NFT_common_header_portrait{
+        height:40px;
+        width:40px; 
+        border-radius:20px;
+    }
+    
+    .NFT_common_header_name{
+        height:20px;
+    }
+    
+    .NFT_common_header_address{
+        height:18px;
+    }
+
+    .NFT_common_header_address_back{
+        margin-left:-2px;
+    }
+}

@@ -1,0 +1,173 @@
+$user_header_lg: 100px;
+$user_header_sm: 150px;
+
+h3{
+    margin:20px 0;
+}
+
+ul{
+    li{
+        color: #888888;
+    }
+}
+
+.user_header{
+    background-color: #1a1a1a;
+    height:$user_header_lg;
+    @media screen and (max-width: 992px) {
+        height:$user_header_sm;
+    }
+    .user_header_box{
+        position:relative;
+        flex-direction:column;
+            .user_header_logo_box{
+                position: relative;
+                .user_header_portrait{
+                    position:absolute;
+                    top:50px;
+                    height:100px !important;
+                    width:100px !important;
+                    border-radius:50px;
+                    border: 5px solid;
+                    z-index: 90;
+                    @media screen and (max-width: 992px) {
+                        height:50px !important;
+                        width:50px !important;
+                        border:2px solid;
+                        top:0;
+                    }
+                }
+                .user_header_info{
+                    position:absolute;
+                    flex-direction:column;
+                    top:60px;
+                    left:90px;
+                    height:80px;
+                    @media screen and (max-width: 992px) {
+                        top:0;
+                        left:70px;
+                        height:50px;
+                    }
+                    .user_header_info_subinfo{
+                        flex-direction:column;
+                        h1, h5 {
+                            height:50%;
+                        }
+                    }
+                }
+            }
+            .user_header_right{
+                height:80%;
+                flex-direction:column;
+                .user_header_right_subdiv{
+                    .dropdown-toggle::after{
+                        font-size: 20px;
+                        // display: none;
+                    }
+                    height:50%;
+                    .user_header_email{
+                        border:2px solid;
+                        background-color: transparent;
+                        border-radius: 20px;
+                        height:40px;
+                        width:250px;
+                        @media screen and (max-width: 992px) {
+                            height:30px;
+                            width: 140px;
+                            padding-top: 0 !important;
+                            padding-bottom: 0 !important;
+                        }
+                    }
+                }
+            }
+            .user_header_subdiv{
+                @media screen and (max-width: 992px) {
+                    margin-top: 10px;
+                    .dropdown-toggle::after{
+                        font-size: 20px;
+                        // display: none;
+                    }
+                    height:50%;
+                    .user_header_email{
+                        border:2px solid;
+                        background-color: transparent;
+                        border-radius: 20px;
+                        height:40px;
+                        @media screen and (max-width: 992px) {
+                            height:30px;
+                            padding-top: 0 !important;
+                            padding-bottom: 0 !important;
+                        }
+                    }
+                }
+            }
+    }
+}
+
+.user_collection {
+    margin-top: 80px;
+    @media screen and (max-width: 992px) {
+        margin-top: 40px;
+    }
+    .user_collection_nftbox{
+        min-width: 300px;  
+        flex-direction: column;  
+    }
+    img, video{
+        margin: 10px;
+    }
+    .identicon{
+        border-radius: 50%;
+        height:40px !important;
+        width:40px !important;
+        margin: 0 20px 5px 0;
+    }
+}
+
+.user_account_wallet{
+    margin-top: 80px;
+    @media screen and (max-width: 992px) {
+        margin-top: 40px;
+    }
+    .user_dash{
+        margin-top: 20px;
+        border-top: thin solid white;
+        height:40px;
+    }
+    .user_account_wallet{
+        .user_account_wallet_account{
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+    }
+   .user_account_normal_box{
+        background-color: #4A4A4A;
+        border-radius: 10px;
+        height:50px;
+        margin:5px;
+        padding:10px;
+        display:flex;
+        align-items: center;
+        @media screen and (max-width: 992px) {
+            padding:7px;
+        }
+    }
+   .user_wallet_normal_box{
+        background-color: #4A4A4A;
+        border-radius: 10px;
+        height:70px;
+        margin:5px;
+        padding:10px;
+        flex-direction: column;
+   }    
+    .user_account_button{
+        margin:5px;
+        border:1px solid #ffffff;
+        background-color: transparent;
+        border-radius: 10px;
+        height:calc(100% - 10px);
+        width:calc(100% - 10px);
+        z-index: 90;
+    }
+}

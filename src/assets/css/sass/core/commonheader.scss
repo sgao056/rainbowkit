@@ -1,0 +1,71 @@
+$primary-color:white;
+$background-color:grey;
+$separator-color:black;
+$theme-color-1:grey;
+
+.common_header{
+  height:120px;
+
+  @media (max-width: 768px){
+    height:180px;
+}
+
+  .common_header_grid{
+    height:110px;
+
+    @media (max-width: 768px){
+      height:60px;
+    }
+
+    .search {
+      margin-right: 20px;
+      width:50%;
+      height:50%;
+  
+      @media (max-width: 1200px){
+        width:100%;
+      }
+
+      @media (max-width:768px) {
+        margin: 0px 20px;
+      }
+  
+      input {
+          overflow-x: hidden  ;
+          background-color: transparent;
+          padding: 0 40px 0 20px ;
+          border-radius: 10px;
+          border: 1px solid $background-color;
+          outline: initial !important;
+          padding: 0.5rem 1rem;
+          line-height: 1.75;
+          font-size: 0.8rem;
+          width: 100%;
+          color: $primary-color;
+      }
+      
+      input:placeholder-shown {
+          text-overflow: ellipsis;
+        }
+  
+      .search-icon {
+          font-size: 17px;
+          border-radius: 10px;
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          bottom: 25px;
+          right: 40px;
+          text-align: center;
+          cursor: pointer;
+          color: $separator-color;
+          @media (max-width: 768px){
+            height:15px;
+          }
+        &:hover {
+          color: $theme-color-1;
+        }
+      }
+    }
+  }
+}

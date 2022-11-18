@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="stylesheet" href="/assets/fonts/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="/assets/fonts/iconsmind-s/css/iconsminds.css">
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>EICO Contributor NFT</title>
+    <style>
+      html{
+        width:100%;
+      }
+      body{
+        min-width:300px;
+        width:100%;
+        min-height:100vh !important;
+      }
+      .blue_background{
+        height:25vh;
+        width:25vh;
+        border-radius:50vh 0 0 0;
+        position:fixed;
+        right:0;
+        bottom:0;
+        /* float:right; */
+        background-image: radial-gradient(circle farthest-corner at bottom right, 
+          rgba(80, 154, 185, 1),
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0)
+        );
+        z-index: 0;
+      } 
+    </style>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <script>
+    var theme = "light.purplemonster";
+    try {
+      if (localStorage.getItem("__theme_selected_color")) {
+        theme = localStorage.getItem("__theme_selected_color");
+      }
+    } catch (error) {
+      theme = "light.purplemonster"
+    }
+    if (theme.indexOf("dark") !== -1) {
+      document.documentElement.style.background = "#1b191b";
+    }
+  </script>
+  <div id="root">
+    <div class="loading"></div>
+  </div>
+  <div class="blue_background"></div>
+</body>
+
+</html>

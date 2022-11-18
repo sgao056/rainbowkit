@@ -1,0 +1,18 @@
+.holders_header{
+    background-color: rgb(78, 78, 78);
+    height: 50px;
+}
+.holders_row{
+    height:60px;
+    border-bottom: 1px solid;
+    .holders_social_icon{
+        transform: scale(1.8)
+    }
+    .holders_tag{
+        background-color: rgb(78, 78, 78);
+        border-radius: 5px;
+        height:30px;
+        overflow: visible;
+        white-space: nowrap;
+    }
+}

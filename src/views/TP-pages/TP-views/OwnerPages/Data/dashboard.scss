@@ -1,0 +1,73 @@
+::-webkit-scrollbar {
+    background-color: transparent;
+    height:2px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: gray; 
+    border-radius: 1px;
+  }
+.emphasized_font{
+    color:green
+}
+
+.dashboard_first_row{
+    height: 300px;
+    margin:0 0 50px 0; 
+    .dashboard_first_row_portals{
+        width:300px;
+        .dashboard_images{
+            width:120px;
+            height:120px;
+            margin-left:5px;
+            .dashboard_images_text_box{
+                height:10%;
+                padding:10px;
+                margin:70% 10% 5% 10%;
+                color:white;
+                background-color: grey;
+            }
+        }
+    }
+    .dashboard_first_row_datas{
+        width:768px;
+        .dashboard_textarea_box{
+            border: 1px solid;
+            border-radius: 10px;
+            width:400px;
+            height:120px;
+            margin:20px ;
+            @media screen and (max-width: 768px){
+                width:100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px){
+        height:auto;
+    }
+}
+
+.dashboard_recent_trade_box{
+    height:50px;
+    margin:20px;
+    .left_side_laid{
+        overflow:hidden; 
+        white-space:nowrap;
+        text-overflow:ellipsis; 
+    }
+    .left_side_laid:hover{
+        overflow-x:scroll;     
+        white-space:inherit;
+        text-overflow:inherit; 
+    }
+    .right_side_laid{
+        text-align: end;
+        .dashboard_recentTrade_image{
+            height:18px;
+        };
+        .dashboard_recentTrade_payment{
+            background-color:gray;
+            border-radius: 5px;
+        }
+    }
+}

@@ -1,0 +1,132 @@
+.modal-dialog{
+    box-shadow:0 0 0; 
+    margin: 0 auto;
+    .modal-content{
+        background: transparent;
+        background-color: transparent;
+    }
+}
+.login{
+    width:100vw;
+    height:100vh;
+    @media screen and (max-width: 992px) {
+        width:auto;
+    }
+    h1, h2, h3, h4, h5, h6, p{
+        color:black;
+    }
+    .modal-content{
+        display: flex;
+        align-items:center;
+    }
+    .login_true{
+        @media screen and (max-width: 992px) {
+            height:350px !important;
+        }
+    }
+    .login_box{
+        background-color: #ffffff;
+        height:400px;
+        width:500px;
+        border-radius: 20px;
+        z-index: 3;
+        flex-direction: column;
+        padding-top: 20px;
+        @media screen and (max-width: 992px) {
+            height:420px;
+            width:300px;
+        }
+
+        .login_box_items{
+            margin: 15px 0 15px 0;
+        }
+        .login_success_image {
+            margin: 30px;
+            height: 100px;
+            width: 120px;
+        }
+        .guest_NFT_right_claim{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            height: 50px;
+            background: linear-gradient(-45deg, transparent 12px, black 0) right,
+                            linear-gradient(135deg, transparent 12px, black 0) left;
+            background-size: 50% 100%;
+            background-repeat: no-repeat;
+
+            .guest_NFT_right_button{
+                background-color: transparent;
+                color:black;
+                border:none;
+                border-radius: 0;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                background: 
+                    linear-gradient(-45deg, transparent 12px, #ffffff 0) right,
+                    linear-gradient(135deg, transparent 12px, #ffffff 0) left;
+                background-size: 50% 100%;
+                background-repeat: no-repeat;
+            }
+
+            .guest_NFT_account_button{
+                background-color: transparent;
+                color:black;
+                border:none;
+                border-radius: 0;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                background: 
+                    linear-gradient(-45deg, transparent 12px, #ffffff 0) right,
+                    linear-gradient(135deg, transparent 12px, #ffffff 0) left;
+                background-size: 52% 100%;
+                background-repeat: no-repeat;
+            }
+        }
+
+        .login_create_account{
+            background-color: black;
+            height:50px;
+            border-radius: 10px !important;
+            @media screen and (max-width: 992px) {
+                height:40px;
+            }
+            h5{
+                color:#ffffff;
+            }
+        }
+
+        .login_metamask{
+            background-color: #ffffff;
+            height:50px;
+            border-radius: 10px !important;
+            @media screen and (max-width: 992px) {
+                height:40px;
+            }
+            .login_metamask_icon{
+                height:30px;
+                width:30px;
+                margin-right:10px;
+                @media screen and (max-width: 992px) {
+                    height:20px;
+                    width:20px;
+                    margin-right:10px;
+                }
+            }
+        }
+
+        .login_input{
+            background-color: #ffffff;
+            color:black;
+            border: thin solid gray;
+            padding: 10px;
+            height:50px !important;
+            border-radius: 10px;
+            font-size: 20px;
+            @media screen and (max-width: 992px) {
+                height: 40px !important;
+            }
+        }
+    }
+}
