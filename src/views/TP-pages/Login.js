@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { Button, Input, Spinner, Modal, Card } from 'reactstrap';
 import { Login, Logout, loginPending } from 'redux/actions'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useAccount, useBalance } from 'wagmi';
+import { useConnect, useAccount, useSignMessage, useDisconnect, useBalance } from 'wagmi'
 import { Network, Alchemy } from "alchemy-sdk";
 import { MagicAuthConnector } from '@everipedia/wagmi-magic-connector';
-import Metamask from "assets/img/wallets/metamaskWallet.png";
+import { filterTime } from './TP-helpers/useTimeStamp';
 import './TP-scss/login.scss'
 
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
@@ -27,77 +28,24 @@ function LoginPage({
   ...props
 }) {
 
+  const { disconnectAsync } = useDisconnect()
+  const { data, error, isLoading, signMessageAsync } = useSignMessage()
   const { data:balance }  = useBalance();
   const { isConnecting, isConnected, address } = useAccount();
   const [ email, setEmail ] = useState("");
   const [ pending, setPending ] = useState(false);
-  const [ resource, setResource ] = useState(null)
+  const [ resource, setResource ] = useState("rainbowkit")
 
-  const loginMagic = async () => {
-    // setPending(true)
-    // setResource("magic-link")
-    // await authenticate({
-    //   provider: "magicLink",
-    //   email,
-    //   apiKey: magicApikey,
-    //   network: "mainnet"
-    // })
-    // .then(async (item)=>{
-    //   if(item){
-    //     const signatureData = item.attributes.authData.moralisEth
-    //     signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
-    //     fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
-    //       method:"POST"
-    //     })
-    //     .then(res=>res.json())
-    //     .then(res=>{
-    //       const createTime = new Date()
-    //       localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:filterTime(createTime)}))
-    //     })
-    //     props.history.push('/guest')
-    //   }
-    //   else{
-    //     alert("You need to sign, please try again!")
-    //   }
-    // })
-    // .catch(()=>{
-    //   alert("System inner problem!")
-    // })
-  };
-
-  const loginRainbowKit = async (connectorId) => {
-  //  if(!window.ethereum){
-  //     alert('MetaMask need to be installed!');
-  //   }
-  //   else{
-  //     setResource("Rainbowkit")
-  //     setEmail('')
-  //     await authenticate({ 
-  //       provider: connectorId,
-  //       signingMessage:"Please sign here to login by your metamask wallet!"
-  //     })
-  //     .then(async (item)=>{
-  //       if(item){
-  //         const signatureData = item.attributes.authData.moralisEth
-  //         signatureData.data = signatureData.data.replace(/\n/g,"%5Cn")
-  //         fetch(`http://localhost:8080/secret?signature=${signatureData.signature}&data=${signatureData.data}`,{
-  //           method:"POST"
-  //         })
-  //         .then(res=>res.json())
-  //         .then(res=>{
-  //           const createTime = new Date().toUTCString()
-  //           localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:createTime}))
-  //         })
-  //         props.history.push('/guest')
-  //       }
-  //       else{
-  //         alert("You need to sign, please try again!")
-  //       }
-  //     })
-  //   }
-  }
+  const { connectAsync } = useConnect({
+    connector: new MagicAuthConnector({
+      options: {
+        apiKey: process.env.REACT_APP_MAGIC_APIKEY
+      },
+    }),
+  })
 
   const checkList = async () => {
+
     setLoginPending({pending:true})
     let number = 0
     const totalArray = await alchemy.nft.getNftsForOwner(address)
@@ -212,20 +160,56 @@ function LoginPage({
     })
     .catch(()=>alert('Please link to database!'))
   }
-
-  useEffect(async ()=>{
-    if(isConnected && address){
-      localStorage.setItem("auth", JSON.stringify({
-        wallet:address,
-        email,
-        balance,
-        resource,
-        claimed:wallet.claimed,
-        id:wallet.id
-      }));
-      await checkList();
+  
+  useEffect(async () => {
+    console.log(isConnecting)
+    if(isConnected && !wallet.wallet && !localStorage.getItem("auth")){
+      const message = "Please signature here to connect your wallet!"
+      const signedData = await signMessageAsync({message})
+      if(signedData){
+        fetch(`http://localhost:8080/secret?signature=${signedData}&data=${message}`,{
+          method:"POST"
+        })
+        .then(res=>res.json())
+        .then(async res=>{
+          const createTime = new Date()
+          localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:filterTime(createTime)}))
+          localStorage.setItem("auth",JSON.stringify({
+            wallet:address,
+            email,
+            balance,
+            resource,
+            claimed:wallet.claimed,
+            id:wallet.id
+          }))
+          await checkList();
+        })
+        props.history.push('/guest')
+      }
+      else{
+        alert("You need to sign, please try again!")
+      }
     }
   },[isConnected])
+
+
+  const loginMagic = async () => {
+    if (isConnected) {
+      await disconnectAsync()
+    }
+    setPending(true)
+    setResource("magic-link")
+    await connectAsync()
+    .then(async (item)=>{
+      console.log(item)
+      setPending(false)
+    })
+    .catch(()=>{
+      alert("System inner problem!")
+      setPending(false)
+    })
+  };
+
 
   useEffect(()=>{
     if(localStorage.getItem("auth")){
@@ -258,16 +242,7 @@ function LoginPage({
         <div className='w-100 d-flex justify-content-center login_box_items font-weight-bold' style={{color:"black", fontSize:"28px"}}>
           Login
         </div>
-        <Input 
-          className='login_input w-100 login_box_items'
-          type="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <Button className='login_create_account w-100 ' onClick={loginMagic} disabled={isConnecting}>
+        <Button className='login_create_account w-100' onClick={loginMagic} disabled={isConnecting}>
           <h5 className="m-0 p-0">
             Login by email
           </h5>
@@ -275,25 +250,111 @@ function LoginPage({
         <div className='d-flex justify-content-center align-items-center w-100' style={{margin:"10px 0"}}>    
           <h4 className='m-0'>OR</h4>
         </div>
-        <Button 
-          className='login_metamask w-100 d-flex align-items-center jsutify-content-between' 
-          onClick={loginRainbowKit} 
-          disabled={isConnecting}
-        >
-            <img className='login_metamask_icon' src={Metamask} alt="" />
-            {
-              window.innerWidth >= 992
-              ?
-              <h5 className='m-0 p-0 w-100 d-flex justify-content-center align-items-center'>
-                Login Using MetaMask
-              </h5>
-              :
-              <h5 className='m-0 p-0 w-100 d-flex justify-content-center align-items-center'>
-                MetaMask
-              </h5>
-            }
-            <i className="simple-icon-arrow-right font-weight-bold"/>
-        </Button>
+        <ConnectButton.Custom>
+          {({
+            account,
+            chain,
+            openAccountModal,
+            openChainModal,
+            openConnectModal,
+            authenticationStatus,
+            mounted,
+          }) => {
+            const ready = mounted && authenticationStatus !== 'loading';
+            const connected =
+              ready &&
+              account &&
+              chain &&
+              (!authenticationStatus ||
+                authenticationStatus === 'authenticated')
+            
+
+            return (
+              <div
+              className='w-100'
+                {...(!ready && {
+                  'aria-hidden': true,
+                  'style': {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                  },
+                })}
+              >
+                {(() => {
+                  if (!connected || !wallet.wallet) {
+                    return (
+                      <>
+                      <Button className='login_create_account w-100'
+                      onClick={ async () => { 
+                        if (isConnected) { await disconnectAsync() }
+                        openConnectModal()
+                      }}
+                      disabled={isConnecting}>
+                         <h5 className="m-0 p-0">
+                            Connect Wallet
+                        </h5>
+                      </Button>
+                      </>
+                    );
+                  }
+
+                  if (chain.unsupported) {
+                    return (
+                      <Button className='login_create_account w-100' onClick={openChainModal}>
+                        Wrong network
+                      </Button>
+                    );
+                  }
+
+                  return (
+                    <div style={{ display: 'flex', gap: 12 }}>
+                      <Button 
+                      className='login_create_accoun' 
+                      onClick={openChainModal}
+                      style={{ display: 'flex', alignItems: 'center'}}
+                     >
+                        {chain.hasIcon && (
+                          <div
+                            style={{
+                              background: chain.iconBackground,
+                              width: 12,
+                              height: 12,
+                              borderRadius: 999,
+                              overflow: 'hidden',
+                              marginRight: 4,
+                            } }
+                          >
+                            {chain.iconUrl && (
+                              <img
+                                alt={chain.name ?? 'Chain icon'}
+                                src={chain.iconUrl}
+                                style={{ width: 12, height: 12 }}
+                              />
+                            )}
+                          </div>
+                        )}
+                        {chain.name}
+                      </Button>
+
+                      <Button 
+                      className='login_create_accoun' 
+                      onClick={openChainModal}
+                      style={{ display: 'flex', alignItems: 'center'}}
+                     >
+                      {account.displayName}
+                      {account.displayBalance
+                      ? ` (${account.displayBalance})`
+                      : ''}
+
+                     </Button>
+                    </div>
+                  );
+                })()}
+              </div>
+            );
+          }}
+        </ConnectButton.Custom>
       </div>
     </div>
   )

@@ -50,7 +50,7 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
         const newArray = [];
         const finder = ownerList.find((item)=>{
           return (
-            item.contract.address.toLocaleLowerCase() === '0x0770c4e695851addcc3b47ababb99c55187edd49'
+            item.contract.address.toLocaleLowerCase() === tokenAddress.toLowerCase()
           )
         })
         if(finder){

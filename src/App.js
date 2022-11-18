@@ -106,8 +106,7 @@ const App = ({ setLoginPending, wallet, setWallet, clearWallet, ...props}) => {
 
 
   useEffect( async ()=>{
-    if(localStorage.auth && JSON.parse(localStorage.auth).resource === 'magic-link'){
-      setLoginPending({pending:true})
+    if(localStorage.auth){
       setWallet(
         JSON.parse(localStorage.auth)
       )
