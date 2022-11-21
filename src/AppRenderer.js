@@ -19,16 +19,10 @@ import { configureStore } from './redux/store';
 const { chains, provider, webSocketProvider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.goerli],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_APIKEY }),
     publicProvider()
   ]
 );
-
-// const client = createClient({
-//   provider,
-//   webSocketProvider,
-//   autoConnect: true,
-// });
 
 const { connectors } = getDefaultWallets({
   appName: 'My RainbowKit App',

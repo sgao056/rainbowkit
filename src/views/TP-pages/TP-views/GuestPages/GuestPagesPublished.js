@@ -561,7 +561,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                       {ownerList.map((item) => {
                             return (
                               <Colxx
-                                key={item.owner_of}
+                                key={item}
                                 xxs="3"
                                 className="m-0 p-0 guest_NFT_holders_cell"
                               >

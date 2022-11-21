@@ -29,23 +29,21 @@ function LoginPage({
 }) {
 
   const { disconnectAsync } = useDisconnect()
-  const { data, error, isLoading, signMessageAsync } = useSignMessage()
-  const { data:balance }  = useBalance();
-  const { isConnecting, isConnected, address } = useAccount();
-  const [ email, setEmail ] = useState("");
+  const { signMessageAsync } = useSignMessage()
+  const { isConnecting, isConnected, address, connector } = useAccount();
+  const { data }  = useBalance({address});
   const [ pending, setPending ] = useState(false);
-  const [ resource, setResource ] = useState("rainbowkit")
+  const [ resource, setResource ] = useState("")
 
   const { connectAsync } = useConnect({
     connector: new MagicAuthConnector({
       options: {
         apiKey: process.env.REACT_APP_MAGIC_APIKEY
-      },
+      }
     }),
   })
 
-  const checkList = async () => {
-
+  const checkList = async (information) => {
     setLoginPending({pending:true})
     let number = 0
     const totalArray = await alchemy.nft.getNftsForOwner(address)
@@ -75,15 +73,14 @@ function LoginPage({
               "Content-Type": "application/json",
               "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token')).token}`
             },
-            body: JSON.stringify(
-              {
-                wallet: address,
-                email,
-                resource,
-                holdingNumbers: number,
-                claimed:false,
-              }
-            )
+            body: JSON.stringify({
+              wallet: address,
+              email:information ? information.email:"",
+              resource,
+              balance:data,
+              holdingNumbers: number,
+              claimed:false,
+            })
           })
         .then(res=>res.json())
         .then((result)=>{
@@ -103,8 +100,8 @@ function LoginPage({
               })
               setWallet({
                 wallet:address,
-                email,
-                balance,
+                email:information ? information.email:"",
+                balance:data,
                 resource,
                 claimed:false,
                 id:flag
@@ -115,7 +112,6 @@ function LoginPage({
         })
         .then(()=>setLoginPending({pending:false})
         )
-        
       }
       else{
         fetch(`http://localhost:8080/holders/${flag}`,{
@@ -144,8 +140,8 @@ function LoginPage({
             .then((result)=>{
               setWallet({
                 wallet:address,
-                email,
-                balance,
+                email:information ? information.email:"",
+                balance:data,
                 resource,
                 claimed:result.claimed,
                 id:flag
@@ -160,10 +156,13 @@ function LoginPage({
     })
     .catch(()=>alert('Please link to database!'))
   }
-  
+
   useEffect(async () => {
-    console.log(isConnecting)
-    if(isConnected && !wallet.wallet && !localStorage.getItem("auth")){
+    if(resource !== "" && isConnected && !wallet.wallet && !localStorage.getItem("auth")){
+      let information = null;
+      if(resource === "magic-link"){
+        information = await connector.magicSDK.user.getMetadata()
+      }
       const message = "Please signature here to connect your wallet!"
       const signedData = await signMessageAsync({message})
       if(signedData){
@@ -176,14 +175,16 @@ function LoginPage({
           localStorage.setItem("token",JSON.stringify({token:res.accessToken,createdAt:filterTime(createTime)}))
           localStorage.setItem("auth",JSON.stringify({
             wallet:address,
-            email,
-            balance,
+            email:information ? information.email:"",
+            balance:data,
             resource,
             claimed:wallet.claimed,
             id:wallet.id
           }))
-          await checkList();
+          await checkList(information);
         })
+        setResource("")
+        setPending(false)
         props.history.push('/guest')
       }
       else{
@@ -201,8 +202,7 @@ function LoginPage({
     setResource("magic-link")
     await connectAsync()
     .then(async (item)=>{
-      console.log(item)
-      setPending(false)
+      alert('Login successfully!')
     })
     .catch(()=>{
       alert("System inner problem!")
@@ -254,7 +254,6 @@ function LoginPage({
           {({
             account,
             chain,
-            openAccountModal,
             openChainModal,
             openConnectModal,
             authenticationStatus,
@@ -287,12 +286,14 @@ function LoginPage({
                       <>
                       <Button className='login_create_account w-100'
                       onClick={ async () => { 
-                        if (isConnected) { await disconnectAsync() }
-                        openConnectModal()
+                          await disconnectAsync().then(()=>{
+                            setResource("rainbowkit")
+                            openConnectModal()    
+                          })
                       }}
                       disabled={isConnecting}>
                          <h5 className="m-0 p-0">
-                            Connect Wallet
+                            {!isConnected ? "Connect Wallet":"Disconnect"}
                         </h5>
                       </Button>
                       </>

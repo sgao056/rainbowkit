@@ -36,17 +36,19 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
   const [ dropdownBasicOpen, setDropdownBasicOpen ] = useState(false);
   const [ copied, setCopied] = useState(false) 
   const [ currentUSD, setCurrentUSD] = useState(0) 
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
 
   useEffect(async()=>{ 
-    const totalArray = await alchemy.nft.getNftsForOwner(address)
-    if(totalArray.totalCount!==100 && !totalArray.pageKey){
-      setOwnerList(totalArray.ownedNfts.length>0 ? totalArray.ownedNfts:null);
+    if(wallet){
+      const totalArray = await alchemy.nft.getNftsForOwner(wallet.wallet)
+      if(totalArray.totalCount!==100 && !totalArray.pageKey){
+        setOwnerList(totalArray.ownedNfts.length>0 ? totalArray.ownedNfts:[]);
+      }
     }
   },[])
 
   useEffect(()=>{
-    if(address && isConnected && ownerList.length>0){
+    if(wallet.wallet && isConnected && ownerList.length>0){
         const newArray = [];
         const finder = ownerList.find((item)=>{
           return (
@@ -209,7 +211,7 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
                         <h4 className='m-0'>ETH</h4>
                         <h5 className='font-weight-light m-0'>{wallet.balance ? wallet.balance.formatted : 0 }</h5>
                       </div>
-                      <div className='d-flex justify-content-end align-items-center'>{wallet.wallet ? `$${(currentUSD * parseFloat(wallet.balance.formatted.slice(0,-4))).toFixed(2)} USD`:"$0 USD"}</div>
+                      <div className='d-flex justify-content-end align-items-center'>{wallet.balance ? `$${(currentUSD * parseFloat(wallet.balance.formatted.slice(0,-4))).toFixed(2)} USD`:"$0 USD"}</div>
                     </div>
                   </div>
                 </Colxx>
