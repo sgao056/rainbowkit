@@ -11,12 +11,14 @@ import 'views/TP-pages/TP-scss/GuestPage.scss';
 import 'views/TP-pages/TP-scss/login.scss';
 import './TP-scss/Post.scss'
 
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
+
 function Post({wallet, setWallet, clearWallet, ...props}) {
   const [id, setId] = useState(window.location.hash.replace("#/post/",""))
   const [content, setContent] = useState(null)
   
   useEffect(()=>{
-    fetch(`http://localhost:8080/post/${id}`,{
+    fetch(`${fetchPrefix}/post/${id}`,{
       method:"GET"
     })
     .then(response=>response.json())

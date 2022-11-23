@@ -27,6 +27,10 @@ const ModifyContract = React.lazy(() =>
   import('./OwnerPages/ModifyContract')
 );
 
+const DeployContract = React.lazy(() =>
+  import('./OwnerPages/DeployContract')
+);
+
 const TPViews = () => (
   <Suspense fallback={<div className="loading" />}>
     <Switch>
@@ -61,6 +65,10 @@ const TPViews = () => (
       <Route
         path="/owner/modify-contract"
         render={() => <ModifyContract  />}
+      />
+      <Route
+        path="/owner/deploy-contract"
+        render={() => <DeployContract  />}
       />
       <Redirect exact from="/owner" to="/owner/portal" />
     </Switch>

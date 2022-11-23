@@ -14,10 +14,10 @@ import 'quill/dist/quill.snow.css';
 import logo from 'assets/img/portal/eicoLogo.jpg';
 import { filterTime} from 'views/TP-pages/TP-helpers/useTimeStamp';
 
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 
 function QuillEditor(props) {
   const [ pending, setPending ] = useState(false)
-  const [ innerText, setInnerText ] = useState('')
   const [ enlarged, setEnlarged ] = useState(false)
   const [ buttonPined, setButtonPined ] = useState(false)
   const [ dropdownBasicOpen, setDropdownBasicOpen ] = useState(false);
@@ -56,7 +56,7 @@ function QuillEditor(props) {
             alert('Post cannot be empty!')
           }
           else{
-            fetch(`http://localhost:8080/post/${localStorage.getItem('blogId')}`,{
+            fetch(`${fetchPrefix}/post/${localStorage.getItem('blogId')}`,{
                 method:"PUT",
                 headers: {
                   "Content-Type": "application/json",
@@ -95,7 +95,7 @@ function QuillEditor(props) {
             alert('Post cannot be empty!')
           }
           else{
-            fetch(`http://localhost:8080/post/${data.id}`,{
+            fetch(`${fetchPrefix}/post/${data.id}`,{
                 method:"PUT",
                 headers: {
                   "Content-Type": "application/json",
@@ -145,7 +145,7 @@ function QuillEditor(props) {
       const body = new FormData();
       body.append('file', file);
       body.append('postId', `${localStorage.getItem('blogId')}`);
-      fetch('http://localhost:8080/uploadImage',{ 
+      fetch(`${fetchPrefix}/uploadImage`,{ 
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token')).token}`
@@ -162,7 +162,7 @@ function QuillEditor(props) {
       const body = new FormData();
       body.append('file', file);
       body.append('postId',`${localStorage.getItem('blogId')}`);
-      fetch('http://localhost:8080/uploadVideo',{ 
+      fetch(`${fetchPrefix}/uploadVideo`,{ 
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token')).token}`

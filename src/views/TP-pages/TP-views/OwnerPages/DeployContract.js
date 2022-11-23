@@ -16,7 +16,6 @@ function DeployContractM() {
       <GuestHeader
       dropdownBasicOpen={dropdownBasicOpen}
       setDropdownBasicOpen={setDropdownBasicOpen}
-      handleLogout={handleLogout}
       post
       owner
       />

@@ -8,12 +8,14 @@ import { timeDiff, timeSequence } from 'views/TP-pages/TP-helpers/useTimeStamp';
 import QuillEditor from './QuillEditor';
 import '../modal.scss';
 
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
+
 const Portal = () => {
   const [blogs, setBlogs] = useState();
   const [modalOpen, setModalOpen] = useState({ data: null, open: false });
 
   useEffect(async () => {
-    await fetch('http://localhost:8080/post/', {
+    await fetch(`${fetchPrefix}/post/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ const Portal = () => {
       }
     });
 
-    fetch('http://localhost:8080/post/', {
+    fetch(`${fetchPrefix}/post/`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -94,7 +96,7 @@ const Portal = () => {
   }, []);
 
   const beforeunload = async () => {
-    await fetch('http://localhost:8080/post/draft', {
+    await fetch(`${fetchPrefix}/post/draft`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${
@@ -116,7 +118,7 @@ const Portal = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this blog?') === true) {
-      fetch(`http://localhost:8080/post/${id}`, {
+      fetch(`${fetchPrefix}/post/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${
@@ -126,7 +128,7 @@ const Portal = () => {
       })
         .then((res) => res.json())
         .then(() => {
-          fetch(`http://localhost:8080/files/blog/${id}`, {
+          fetch(`${fetchPrefix}/files/blog/${id}`, {
             method: 'DELETE',
             headers: {
               Authorization: `Bearer ${

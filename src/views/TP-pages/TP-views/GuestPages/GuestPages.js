@@ -20,9 +20,9 @@ import '../../TP-scss/login.scss';
 import { externalLinks } from '../../TP-constants/guestPage';
 import useVerifyMetadata from '../../TP-helpers/useVerifyMetadata';
 
-const authorAddress = process.env.REACT_APP_AUTHOR_ADDRESS;
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
 const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 
 const settings = {
   apiKey: alchemyApikey,
@@ -41,12 +41,10 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
   const [blogs, setBlogs] = useState();
 
   const { isConnected, address } = useAccount();
-  const { verifyMetadata } = useVerifyMetadata();
-
 
   useEffect(async() => {
     // insert blogs
-    fetch('http://localhost:8080/post/', {
+    fetch(`${fetchPrefix}/post/`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -137,12 +135,12 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
 
   const handleView = async (id) => {
     if (wallet.wallet) {
-      await fetch(`http://localhost:8080/post/${id}`, {
+      await fetch(`${fetchPrefix}/post/${id}`, {
         method: 'GET',
       })
         .then((response) => response.json())
         .then((response) => {
-          fetch(`http://localhost:8080/post/${id}`, {
+          fetch(`${fetchPrefix}/post/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

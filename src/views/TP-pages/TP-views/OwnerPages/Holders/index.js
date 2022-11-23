@@ -7,11 +7,12 @@ import './holders.scss'
 import { Login } from 'redux/actions';
 import { Colxx } from 'components/common/CustomBootstrap';
 
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
+
 const Holders = ({wallet}) => {
   const [holders, setHolders] = useState([]);
-
   useEffect(()=>{
-    fetch('http://localhost:8080/holders',{
+    fetch(`${fetchPrefix}/holders`,{
         method:"GET"
     })
     .then(response=>response.json())

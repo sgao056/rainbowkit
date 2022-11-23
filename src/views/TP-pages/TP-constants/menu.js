@@ -1,6 +1,6 @@
 const menuData = [
   {
-    icon: 'simple-icon-globe',
+    icon: 'iconsminds-file-edit',
     label: 'Post',
     to: "/owner/portal",
   }
@@ -11,19 +11,24 @@ const menuData = [
     to: "/owner/holders",
   },
   {
-    icon: 'simple-icon-layers',
+    icon: 'simple-icon-arrow-right',
     label: 'Air Drop',
     to: "/owner/air-drop",
   },
   {
-    icon: 'simple-icon-globe',
+    icon: 'simple-icon-diamond',
     label: 'Mint',
     to: "/owner/mint",
   },
   {
-    icon: 'iconsminds-shop',
+    icon: 'simple-icon-refresh',
     label: 'Modify Contract',
     to: "/owner/modify-contract",
+  },
+  {
+    icon: 'simple-icon-power',
+    label: 'Deploy Contract',
+    to: "/owner/deploy-contract",
   }
 ];
 

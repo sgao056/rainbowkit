@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi';
 import { Network, Alchemy } from "alchemy-sdk";
 
 const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 
 const settings = {
   apiKey: alchemyApikey,
@@ -31,7 +32,7 @@ function LoginModal({setWallet, wallet, ...props}) {
     },[modalToggle])
 
     const handleClaim = async () => {
-        fetch(`http://localhost:8080/holders/${wallet.id}`,{
+        fetch(`${fetchPrefix}/holders/${wallet.id}`,{
             method:"PUT",
             headers: {
             "Content-Type": "application/json",

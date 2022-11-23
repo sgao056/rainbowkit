@@ -10,8 +10,8 @@ import { MagicAuthConnector } from '@everipedia/wagmi-magic-connector';
 import { filterTime } from './TP-helpers/useTimeStamp';
 import './TP-scss/login.scss'
 
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
-const magicApikey = process.env.REACT_APP_MAGIC_APIKEY;
 const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
 
 const settings = {
@@ -55,7 +55,7 @@ function LoginPage({
       })  
     }
 
-    fetch('http://localhost:8080/holders',{
+    fetch(`${fetchPrefix}/holders`,{
         method:"GET"
     })
     .then(response=>response.json())
@@ -67,7 +67,7 @@ function LoginPage({
         }
       })
       if(!flag){
-        fetch("http://localhost:8080/holders",{
+        fetch(`${fetchPrefix}/holders`,{
             method:"POST",
             headers: {
               "Content-Type": "application/json",
@@ -84,7 +84,7 @@ function LoginPage({
           })
         .then(res=>res.json())
         .then((result)=>{
-          fetch(`http://localhost:8080/holders/`,{
+          fetch(`${fetchPrefix}/holders`,{
             method:"GET",
             headers: {
               "Content-Type": "application/json"
@@ -114,7 +114,7 @@ function LoginPage({
         )
       }
       else{
-        fetch(`http://localhost:8080/holders/${flag}`,{
+        fetch(`${fetchPrefix}/holders/${flag}`,{
           method:"GET",
           headers: {
             "Content-Type": "application/json"
@@ -123,7 +123,7 @@ function LoginPage({
         .then(res=>res.json())
         .then(
           (res)=>{
-            fetch(`http://localhost:8080/holders/${flag}`,{
+            fetch(`${fetchPrefix}/holders/${flag}`,{
               method:"PUT",
               headers: {
                 "Content-Type": "application/json",
@@ -166,7 +166,7 @@ function LoginPage({
       const message = "Please signature here to connect your wallet!"
       const signedData = await signMessageAsync({message})
       if(signedData){
-        fetch(`http://localhost:8080/secret?signature=${signedData}&data=${message}`,{
+        fetch(`${fetchPrefix}/secret?signature=${signedData}&data=${message}`,{
           method:"POST"
         })
         .then(res=>res.json())

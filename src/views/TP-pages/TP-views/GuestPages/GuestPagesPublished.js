@@ -20,9 +20,9 @@ import '../../TP-scss/login.scss';
 import { externalLinks } from '../../TP-constants/guestPage';
 import useVerifyMetadata from '../../TP-helpers/useVerifyMetadata';
 
-const authorAddress = process.env.REACT_APP_AUTHOR_ADDRESS;
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
 const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 
 const settings = {
   apiKey: alchemyApikey,
@@ -33,7 +33,6 @@ const alchemy = new Alchemy(settings);
 
 const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
   const [activeTab, setActiveTab] = useState('NFT');
-  // const [nftList, setNftList] = useState(null);
   const [ownerList, setOwnerList] = useState([]);
   const [dropdownBasicOpen, setDropdownBasicOpen] = useState(false);
   const [postAuth, setPostAuth] = useState(false);
@@ -43,7 +42,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
 
   useEffect(async() => {
     // insert blogs
-    fetch('http://localhost:8080/post/', {
+    fetch(`${fetchPrefix}/post/`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -97,18 +96,13 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
         setBlogs(newArray);
       });
 
-      await alchemy.nft.getOwnersForNft(tokenAddress, "1")
-      .then(
-        res=>{
-          setOwnerList(res && res.owners.length > 0 ? res.owners:[])
-        }
-      );
-
-      // const result = await alchemy.nft.getNftsForContract(tokenAddress);
-      // const metadata = JSON.parse(
-      //   verifyMetadata(result ? result.nfts[0].metadata:null)
-      // );
-      // setNftList(result ?  { ...result.nfts[0], metadata }:[]);
+    await alchemy.nft.getOwnersForContract(tokenAddress)
+    .then(
+      res=>{
+        console.log(res)
+        setOwnerList(res && res.owners.length > 0 ? res.owners:[])
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -134,12 +128,12 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
 
   const handleView = async (id) => {
     if (wallet.wallet) {
-      await fetch(`http://localhost:8080/post/${id}`, {
+      await fetch(`${fetchPrefix}/post/${id}`, {
         method: 'GET',
       })
         .then((response) => response.json())
         .then((response) => {
-          fetch(`http://localhost:8080/post/${id}`, {
+          fetch(`${fetchPrefix}/post/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
