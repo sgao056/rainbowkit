@@ -6,8 +6,8 @@ import { Login, Logout } from 'redux/actions';
 import { connect } from 'react-redux';
 import NFT from "NFTAbi";
 import nftVideo from 'assets/video/founderpass.mp4'
-import '../modal.scss'  
-import '../ownerCommon.scss'
+import '../modal.scss' 
+import '../ownerPage.scss'
 
 const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS;
 
@@ -15,7 +15,7 @@ function AirdropPage({wallet}) {
     const { address, isConnected } = useAccount();
     const [ pending, setPending ] = useState(false);
     const [ dropAddress, setDropAddress ] = useState('');    
-    const { data: signer, isError, isLoading } = useSigner()
+    const { data: signer } = useSigner()
     const contract = useContract({
       address: TOKEN_ADDRESS,
       abi: NFT,
@@ -87,11 +87,20 @@ function AirdropPage({wallet}) {
             <h1 style={{color:"#ffffff", marginTop:"20px"}}>Loading...</h1>  
           </Card>
         </Modal>
+
+        <div className='w-100 pr-5'>
+          <div className='homepage_items d-flex justify-content-start'> 
+            <h1 className='pt-5'>Air Drop</h1>
+          </div>
+          <div className='homepage_items'>
+              <h3 className='mt-5 mb-5 font-weight-light'>As NFT holders, You can air-drop NFT to multiple wallets in this page!</h3>
+          </div>
+        </div>
         {
           wallet.wallet
           ?
           <div style={{zIndex:"90"}}>
-            <video width="500" height="500" autoPlay loop muted controls controlsList='nodownload' playsInline preload="metadata">
+            <video style={{borderRadius:"30px"}} width="300" height="300" autoPlay loop muted controls controlsList='nodownload' playsInline preload="metadata">
                 <source src={nftVideo} type="video/mp4"/>
                 <track src="captions_en.vtt" kind="captions" srcLang="en" label="english_captions"/>
             </video>
@@ -102,13 +111,13 @@ function AirdropPage({wallet}) {
                 setDropAddress(e.target.value)
               }}
               type='textarea'
-              rows="20"
-              style={{zIndex:"90"}}
-              placeholder="页面用于空投NFT。 请在输入框中输入需要空投的钱包地址，每行一个钱包，每个钱包只会空投一次，重复地址不会多次空投。"
+              rows="10"
+              style={{zIndex:"90", whiteSpace:'pre-wrap',width: window.innerWidth>1200? "70%":"100%"}}
+              placeholder={`Enter addresses inside the textarea.\nRule:\n1. Each line contains only one address.\n2. Every wallet will be air-droped onece.\n3. Repeated address is not allowed.`}
             />
             <Button
-            className="mt-4"
-            style={{width:"150px", height:"50px"}}
+            className="ownerpage_button"            
+            style={{width:"210px"}}
             onClick={
               ()=>{handleTransfer()}
             }

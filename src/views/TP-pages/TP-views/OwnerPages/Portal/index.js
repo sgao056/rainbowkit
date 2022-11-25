@@ -33,8 +33,11 @@ const Portal = () => {
       }),
     }).then((res) => {
       if (res.status === 403) {
-        alert('登录超时，请重试');
+        alert('Timeout! Please login again!');
       }
+    })
+    .catch(err=>{
+      alert("Fail to connect to database")
     });
 
     fetch(`${fetchPrefix}/post/`, {
@@ -147,284 +150,288 @@ const Portal = () => {
 
   return (
     <>
-      <div className="mt-4">
-        {!modalOpen.open ? <QuillEditor /> : null}
-
-        <Modal isOpen={modalOpen.open}>
-          <Card className="p-5">
-            <QuillEditor data={modalOpen.data} />
-            <div className="d-flex justify-content-center">
-              <Button
-                onClick={() => {
-                  setModalOpen({ data: null, open: false });
-                }}
-                style={{ width: '150px' }}
-              >
-                Cancel
-              </Button>
-            </div>
-          </Card>
-        </Modal>
-
-        <Row className="d-flex justify-content-center">
-          <Colxx xxs="11" className="m-0">
-            {blogs
-              ? blogs.map((item) => {
-                  return (
-                    <>
-                      <div
-                        key={item.id}
-                        style={{ flexDirection: 'column' }}
-                        className="w-100 d-flex justify-content-center align-items-between blog_item_box ql-editor mt-0 pb-5"
-                      >
-                        <Row xxs="11" className="ml-0 mr-0 p-0">
-                          <Colxx xxs="10" style={{ flexDirection: 'row' }}>
-                            {item.pined ? (
-                              <div
-                                className="w-100 d-flex align-items-center justify-content-between"
-                                style={{ height: '50px' }}
-                              >
-                                <Colxx xxs="1">
-                                  <Badge className="pined_mark">
-                                    <i className="simple-icon-pin" />
-                                    &nbsp; Pined
-                                  </Badge>
-                                </Colxx>
-                                <h4 style={{ color: 'gray' }}>
-                                  {item.edited
-                                    ? `Edited ${timeDiff(item.edited)}`
-                                    : `Created ${timeDiff(item.created)}`}
-                                </h4>
-                              </div>
-                            ) : (
-                              <div
-                                className="w-100 d-flex align-items-center justify-content-end"
-                                style={{ height: '50px' }}
-                              >
-                                <h4 style={{ color: 'gray' }}>
-                                  {item.edited
-                                    ? `Edited ${timeDiff(item.edited)}`
-                                    : `Created ${timeDiff(item.created)}`}
-                                </h4>
-                              </div>
-                            )}
-                            {
-                            item.cover 
-                            ? 
-                            (
-                              <Card
-                                // onClick={()=>handleView(item.id)}
-                                style={{
-                                  background: 'transparent',
-                                  width: '600px',
-                                  flexDirection: 'column',
-                                }}
-                                className="d-flex w-100"
-                              >
-                                {item.cover.insert.image ? (
-                                  <img
-                                    style={{
-                                      borderRadius: '30px',
-                                      width: '100%',
-                                    }}
-                                    src={item.cover.insert.image}
-                                    alt=""
-                                  />
-                                ) : null}
-                                {item.cover.insert.video &&
-                                !item.cover.insert.image ? (
-                                  <video
-                                    style={{
-                                      borderRadius: '30px',
-                                      width: '100%',
-                                    }}
-                                    autoPlay
-                                    loop
-                                    muted
-                                    controls
-                                    controlsList="nodownload"
-                                    playsInline
-                                    preload="metadata"
-                                  >
-                                    <source
-                                      src={item.cover.insert.video}
-                                      type="video/mp4"
-                                    />
-                                    <track
-                                      src="captions_en.vtt"
-                                      kind="captions"
-                                      srcLang="en"
-                                      label="english_captions"
-                                    />
-                                  </video>
-                                ) : null}
-                                <Row
-                                  className="w-100 p-0 mr-0 ml-0"
-                                  style={{ marginTop: '30px' }}
+      <Modal isOpen={modalOpen.open}>
+        <Card className="p-5">
+          <QuillEditor data={modalOpen.data} />
+          <div className="d-flex justify-content-center">
+            <Button
+              onClick={() => {
+                setModalOpen({ data: null, open: false });
+              }}
+              style={{ width: '150px' }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Card>
+      </Modal>
+      <div className='w-100 pr-5 pb-5'>
+        <div className='homepage_items d-flex justify-content-start'> 
+          <h1 className='pt-5'>Blogs post</h1>
+        </div>
+        <div className='homepage_items'>
+            <h3 className='mt-5 mb-5 font-weight-light'>You can publish, edit or delete any notice, anoncement and information here by this blog system!</h3>
+        </div>
+      </div>
+      {!modalOpen.open ? <QuillEditor /> : null}
+      <Row className="d-flex justify-content-center">
+        <Colxx xxs="11" className="m-0">
+          {blogs
+            ? blogs.map((item) => {
+                return (
+                  <>
+                    <div
+                      key={item.id}
+                      style={{ flexDirection: 'column' }}
+                      className="w-100 d-flex justify-content-center align-items-between blog_item_box ql-editor mt-0 pb-5"
+                    >
+                      <Row xxs="11" className="ml-0 mr-0 p-0">
+                        <Colxx xxs="10" style={{ flexDirection: 'row' }}>
+                          {item.pined ? (
+                            <div
+                              className="w-100 d-flex align-items-center justify-content-between"
+                              style={{ height: '50px' }}
+                            >
+                              <Colxx xxs="1">
+                                <Badge className="pined_mark">
+                                  <i className="simple-icon-pin" />
+                                  &nbsp; Pined
+                                </Badge>
+                              </Colxx>
+                              <h4 style={{ color: 'gray' }}>
+                                {item.edited
+                                  ? `Edited ${timeDiff(item.edited)}`
+                                  : `Created ${timeDiff(item.created)}`}
+                              </h4>
+                            </div>
+                          ) : (
+                            <div
+                              className="w-100 d-flex align-items-center justify-content-end"
+                              style={{ height: '50px' }}
+                            >
+                              <h4 style={{ color: 'gray' }}>
+                                {item.edited
+                                  ? `Edited ${timeDiff(item.edited)}`
+                                  : `Created ${timeDiff(item.created)}`}
+                              </h4>
+                            </div>
+                          )}
+                          {
+                          item.cover 
+                          ? 
+                          (
+                            <Card
+                              // onClick={()=>handleView(item.id)}
+                              style={{
+                                background: 'transparent',
+                                width: '600px',
+                                flexDirection: 'column',
+                              }}
+                              className="d-flex w-100"
+                            >
+                              {item.cover.insert.image ? (
+                                <img
+                                  style={{
+                                    borderRadius: '30px',
+                                    width: '100%',
+                                  }}
+                                  src={item.cover.insert.image}
+                                  alt=""
+                                />
+                              ) : null}
+                              {item.cover.insert.video &&
+                              !item.cover.insert.image ? (
+                                <video
+                                  style={{
+                                    borderRadius: '30px',
+                                    width: '100%',
+                                  }}
+                                  autoPlay
+                                  loop
+                                  muted
+                                  controls
+                                  controlsList="nodownload"
+                                  playsInline
+                                  preload="metadata"
                                 >
-                                  <Colxx xxs="2" md="1" className="p-0">
-                                    <img
-                                      src={logo}
-                                      className="mr-4 "
-                                      alt=""
-                                      style={{
-                                        height: '30px',
-                                        width: '30px',
-                                        borderRadius: '15px',
-                                        position: 'relative',
-                                        float: 'left',
-                                        display: 'inline-block',
-                                      }}
-                                    />
-                                  </Colxx>
-                                  <Colxx
-                                    xxs="10"
-                                    md="11"
-                                    className="p-0"
-                                    style={{ whiteSpace: 'normal' }}
-                                  >
-                                    <h1 style={{ whiteSpace: 'inherit' }}>
-                                    {item.text.length >= 50 && !item.dropdown
-                                        ? `${item.text.substring(0, 50)}...`
-                                        : item.text}
-                                    </h1>
-                                    <div className='mt-3 rtl'>
-                                      <Button 
-                                      style={{border:"none", backgroundColor:"transparent"}}
-                                      onClick={()=>{
-                                        const clickArray = []
-                                        blogs.forEach((cell)=>{
-                                          if(cell.id === item.id){
-                                            cell.dropdown = !cell.dropdown
-                                            clickArray.push(cell)
-                                          }
-                                          else{
-                                            clickArray.push(cell)
-                                          }
-                                        })
-                                        setBlogs(clickArray)
-                                      }}>
-                                        <i className={item.dropdown ? 'simple-icon-size-actual' : 'simple-icon-size-fullscreen'}/>
-                                      </Button>
-                                    </div>
-                                  </Colxx>
-                                </Row>
-                              </Card>
-                            ) 
-                            : 
-                            (
-                              <Card
-                                style={{
-                                  background: 'transparent',
-                                  width: '600px',
-                                  flexDirection: 'row',
-                                  marginTop: '30px',
-                                }}
-                                className="d-flex w-100"
+                                  <source
+                                    src={item.cover.insert.video}
+                                    type="video/mp4"
+                                  />
+                                  <track
+                                    src="captions_en.vtt"
+                                    kind="captions"
+                                    srcLang="en"
+                                    label="english_captions"
+                                  />
+                                </video>
+                              ) : null}
+                              <Row
+                                className="w-100 p-0 mr-0 ml-0"
+                                style={{ marginTop: '30px' }}
                               >
-                                <Row className="w-100 m-0 p-0 mt-2">
-                                  <Colxx xxs="2" md="1" className="p-0">
-                                    <img
-                                      src={logo}
-                                      className="mr-4 "
-                                      alt=""
-                                      style={{
-                                        height: '30px',
-                                        width: '30px',
-                                        borderRadius: '15px',
-                                        position: 'relative',
-                                        float: 'left',
-                                        display: 'inline-block',
-                                      }}
-                                    />
-                                  </Colxx>
-                                  <Colxx
-                                    xxs="10"
-                                    md="11"
-                                    className="p-0"
-                                    style={{ whiteSpace: 'normal' }}
-                                  >
-                                    <h1 style={{ whiteSpace: 'inherit' }}>
-                                      {item.text.length >= 50 && !item.dropdown
-                                        ? `${item.text.substring(0, 50)}...`
-                                        : item.text}
-                                    </h1>
-                                    <div className='mt-3 rtl'>
+                                <Colxx xxs="2" md="1" className="p-0">
+                                  <img
+                                    src={logo}
+                                    className="mr-4 "
+                                    alt=""
+                                    style={{
+                                      height: '30px',
+                                      width: '30px',
+                                      borderRadius: '15px',
+                                      position: 'relative',
+                                      float: 'left',
+                                      display: 'inline-block',
+                                    }}
+                                  />
+                                </Colxx>
+                                <Colxx
+                                  xxs="10"
+                                  md="11"
+                                  className="p-0"
+                                  style={{ whiteSpace: 'normal' }}
+                                >
+                                  <h1 style={{ whiteSpace: 'inherit' }}>
+                                  {item.text.length >= 50 && !item.dropdown
+                                      ? `${item.text.substring(0, 50)}...`
+                                      : item.text}
+                                  </h1>
+                                  <div className='mt-3 rtl'>
                                     <Button 
                                     style={{border:"none", backgroundColor:"transparent"}}
                                     onClick={()=>{
-                                        const clickArray = []
-                                        blogs.forEach((cell)=>{
-                                          if(cell.id === item.id){
-                                            cell.dropdown = !cell.dropdown
-                                            clickArray.push(cell)
-                                          }
-                                          else{
-                                            clickArray.push(cell)
-                                          }
-                                        })
-                                        setBlogs(clickArray)
-                                      }}>
-                                        <i className={item.dropdown ? 'font-weight-bold simple-icon-size-actual' : 'font-weight-bold simple-icon-size-fullscreen'}/>
-                                      </Button>
-                                    </div>
-                                  </Colxx>
-                                </Row>
-                              </Card>
-                            )}
-                          </Colxx>
-                          <Colxx
-                            xxs="2"
-                            style={{ flexDirection: 'column' }}
-                            className="m-0 p-0 d-flex justify-content-start"
+                                      const clickArray = []
+                                      blogs.forEach((cell)=>{
+                                        if(cell.id === item.id){
+                                          cell.dropdown = !cell.dropdown
+                                          clickArray.push(cell)
+                                        }
+                                        else{
+                                          clickArray.push(cell)
+                                        }
+                                      })
+                                      setBlogs(clickArray)
+                                    }}>
+                                      <i className={item.dropdown ? 'simple-icon-size-actual' : 'simple-icon-size-fullscreen'}/>
+                                    </Button>
+                                  </div>
+                                </Colxx>
+                              </Row>
+                            </Card>
+                          ) 
+                          : 
+                          (
+                            <Card
+                              style={{
+                                background: 'transparent',
+                                width: '600px',
+                                flexDirection: 'row',
+                                marginTop: '30px',
+                              }}
+                              className="d-flex w-100"
+                            >
+                              <Row className="w-100 m-0 p-0 mt-2">
+                                <Colxx xxs="2" md="1" className="p-0">
+                                  <img
+                                    src={logo}
+                                    className="mr-4 "
+                                    alt=""
+                                    style={{
+                                      height: '30px',
+                                      width: '30px',
+                                      borderRadius: '15px',
+                                      position: 'relative',
+                                      float: 'left',
+                                      display: 'inline-block',
+                                    }}
+                                  />
+                                </Colxx>
+                                <Colxx
+                                  xxs="10"
+                                  md="11"
+                                  className="p-0"
+                                  style={{ whiteSpace: 'normal' }}
+                                >
+                                  <h1 style={{ whiteSpace: 'inherit' }}>
+                                    {item.text.length >= 50 && !item.dropdown
+                                      ? `${item.text.substring(0, 50)}...`
+                                      : item.text}
+                                  </h1>
+                                  <div className='mt-3 rtl'>
+                                  <Button 
+                                  style={{border:"none", backgroundColor:"transparent"}}
+                                  onClick={()=>{
+                                      const clickArray = []
+                                      blogs.forEach((cell)=>{
+                                        if(cell.id === item.id){
+                                          cell.dropdown = !cell.dropdown
+                                          clickArray.push(cell)
+                                        }
+                                        else{
+                                          clickArray.push(cell)
+                                        }
+                                      })
+                                      setBlogs(clickArray)
+                                    }}>
+                                      <i className={item.dropdown ? 'font-weight-bold simple-icon-size-actual' : 'font-weight-bold simple-icon-size-fullscreen'}/>
+                                    </Button>
+                                  </div>
+                                </Colxx>
+                              </Row>
+                            </Card>
+                          )}
+                        </Colxx>
+                        <Colxx
+                          xxs="2"
+                          style={{ flexDirection: 'column' }}
+                          className="m-0 p-0 d-flex justify-content-start"
+                        >
+                          <Button
+                            style={{
+                              height: '40px',
+                              width: '100px',
+                              padding: '10px',
+                              margin: '10px',
+                              position: 'relative',
+                              zIndex: '90',
+                            }}
+                            className="d-flex justify-content-center align-items-center"
+                            onClick={() => {
+                              setModalOpen({
+                                data: item,
+                                open: true,
+                              });
+                            }}
                           >
-                            <Button
-                              style={{
-                                height: '40px',
-                                width: '100px',
-                                padding: '10px',
-                                margin: '10px',
-                                position: 'relative',
-                                zIndex: '90',
-                              }}
-                              className="d-flex justify-content-center align-items-center"
-                              onClick={() => {
-                                setModalOpen({
-                                  data: item,
-                                  open: true,
-                                });
-                              }}
-                            >
-                              <i className="simple-icon-pencil" />
-                              &nbsp; Edit
-                            </Button>
-                            <Button
-                              style={{
-                                height: '40px',
-                                width: '100px',
-                                padding: '10px',
-                                margin: '10px',
-                                position: 'relative',
-                                zIndex: '90',
-                              }}
-                              className="d-flex justify-content-center align-items-center"
-                              onClick={() => {
-                                handleDelete(item.id);
-                              }}
-                            >
-                              <i className="simple-icon-pencil" />
-                              &nbsp; Delete
-                            </Button>
-                          </Colxx>
-                        </Row>
-                      </div>
-                    </>
-                  );
-                })
-              : null}
-          </Colxx>
-        </Row>
-      </div>
+                            <i className="simple-icon-pencil" />
+                            &nbsp; Edit
+                          </Button>
+                          <Button
+                            style={{
+                              height: '40px',
+                              width: '100px',
+                              padding: '10px',
+                              margin: '10px',
+                              position: 'relative',
+                              zIndex: '90',
+                            }}
+                            className="d-flex justify-content-center align-items-center"
+                            onClick={() => {
+                              handleDelete(item.id);
+                            }}
+                          >
+                            <i className="simple-icon-pencil" />
+                            &nbsp; Delete
+                          </Button>
+                        </Colxx>
+                      </Row>
+                    </div>
+                  </>
+                );
+              })
+            : null}
+        </Colxx>
+      </Row>
     </>
   );
 };

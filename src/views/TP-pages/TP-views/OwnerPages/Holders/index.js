@@ -24,7 +24,15 @@ const Holders = ({wallet}) => {
   },[wallet.wallet])
 
   return(
-  <div className='mt-4'>      
+  <>     
+    <div className='w-100 pr-5'>
+      <div className='homepage_items d-flex justify-content-start'> 
+        <h1 className='pt-5'>Holders Table</h1>
+      </div>
+      <div className='homepage_items'>
+          <h3 className='mt-5 mb-5 font-weight-light'>You can check NFT holders&#39; address, email and holding numbers in this page!</h3>
+      </div>
+    </div> 
     <Row className='holders_header'>
       <Colxx xxs="6" className="d-flex justify-content-center align-items-center"><h6 className='m-0 p-0'>Address</h6></Colxx>
       <Colxx xxs="4" className="d-flex justify-content-center align-items-center"><h6 className='m-0 p-0'>Email</h6></Colxx>
@@ -50,7 +58,7 @@ const Holders = ({wallet}) => {
           </Colxx>
         </Row>
     )})}
-  </div>
+  </>
   )
 };
 const mapDispatchToProps = (dispatch) => {

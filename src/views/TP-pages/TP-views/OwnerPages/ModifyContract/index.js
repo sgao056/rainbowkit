@@ -3,7 +3,7 @@ import { Button, Input, Spinner, Modal, Card } from 'reactstrap';
 import NFT from 'NFTAbi'
 import { useContract, useSigner } from "wagmi";
 import '../modal.scss'
-import '../ownerCommon.scss'
+import '../ownerPage.scss'
 
 const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS;
 
@@ -62,16 +62,23 @@ function index() {
           <h1 style={{color:"#ffffff", marginTop:"20px"}}>Loading...</h1>  
         </Card>
       </Modal>
+
+      <div className='w-100 pr-5'>
+        <div className='homepage_items d-flex justify-content-start'> 
+          <h1 className='pt-5'>Modify contract</h1>
+        </div>
+        <div className='homepage_items'>
+            <h3 className='mt-5 mb-5 font-weight-light'>You can input your ABI address here to change your contract ABI!</h3>
+        </div>
+      </div>
       <Input 
-      className='ml-4 mr-4'
       onChange={(e)=>{setAbiAddress(e.target.value)}}
       value={abiAddress}
-      placeholder="此输入框只用于更新NFT视频素材，请输入metadata地址"
+      placeholder="This input bar is used to update Contract ABI, please input the ABI link here!"
       style={{zIndex:"90"}}/>
       <div style={{zIndex:"90"}}>
         <Button
-        className='m-4'
-        style={{width:"150px", height:"50px"}}
+        className='ownerpage_button'
         onClick={handleModifyApi}>
           Update Metadata
         </Button>

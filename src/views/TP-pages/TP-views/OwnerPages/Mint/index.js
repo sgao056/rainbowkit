@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { useContract, useSigner } from "wagmi";
 import { Button, Input, Modal, Card, Spinner } from "reactstrap";
 import nftVideo from 'assets/video/founderpass.mp4'
-import '../ownerCommon.scss'
 import '../modal.scss'  
+import '../ownerPage.scss'
 
 const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS;
 
@@ -91,18 +91,26 @@ function index({wallet}) {
           <h1 style={{color:"#ffffff", marginTop:"20px"}}>Loading...</h1>  
         </Card>
       </Modal>
+      <div className='w-100 pr-5'>
+        <div className='homepage_items d-flex justify-content-start'> 
+          <h1 className='pt-5'>Mint</h1>
+        </div>
+        <div className='homepage_items'>
+            <h3 className='mt-5 mb-5 font-weight-light'>As NFT owner, you can mint any amount of NFTs here to other wallet!</h3>
+        </div>
+      </div>
       {
         wallet.wallet
         ?
         <div style={{zIndex:"90"}}>
           <div style={{zIndex:"90"}} className="m-4">
-            <video width="500" height="500" autoPlay loop muted controls controlsList='nodownload' playsInline preload="metadata">
+            <video style={{borderRadius:"30px"}} width="300" height="300" autoPlay loop muted controls controlsList='nodownload' playsInline preload="metadata">
                 <source src={nftVideo} type="video/mp4"/>
                 <track src="captions_en.vtt" kind="captions" srcLang="en" label="english_captions"/>
             </video>
           </div>
           <Input 
-          className="ml-4 mr-4 mt-4"
+          className="mr-4 mt-4"
           value={mintAddress}
           placeholder="Please type the wallet which you want to mint nfts to!"
           onChange={(e)=>{
@@ -110,13 +118,13 @@ function index({wallet}) {
           }}
           />
           <div style={{zIndex:"90"}}>
-            <Button className="m-4" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(-10)} disabled={mintNumber<=0}>-10</Button>
-            <Button className="m-4" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(-1)} disabled={mintNumber<=0}>-1</Button>
-            <span className="m-4" style={{ fontSize:"24px", margin:"5px",padding:"5px"}}>{mintNumber}</span> 
-            <Button className="m-4" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(1)} disabled={mintNumber>=10}>+1</Button>
-            <Button className="m-4" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(10)} disabled={mintNumber>=10}>+10</Button>
+            <Button className="ownerpage_button" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(-10)} disabled={mintNumber<=0}>-10</Button>
+            <Button className="ownerpage_button" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(-1)} disabled={mintNumber<=0}>-1</Button>
+            <span className="ownerpage_button" style={{ fontSize:"16px", marginRight:"10px",padding:"5px"}}>{mintNumber}</span> 
+            <Button className="ownerpage_button" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(1)} disabled={mintNumber>=10}>+1</Button>
+            <Button className="ownerpage_button" style={{width:"80px", height:"50px"}} onClick={()=>modifyNumber(10)} disabled={mintNumber>=10}>+10</Button>
           </div>
-          <Button className="ml-4" style={{width:"150px", height:"50px"}} onClick={handleMint}>Mint</Button>
+          <Button className="ownerpage_button" style={{width:"210px", height:"50px"}} onClick={handleMint}>Mint</Button>
         </div>
         :
         <div style={{zIndex:"90"}}>

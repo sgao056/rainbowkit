@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { useContract, useSigner } from "wagmi";
 import Abi from 'NFTAbi'
 import ByteCode from 'ByteCode'
+import '../ownerPage.scss'
 
-const creatorAddress = process.env.REACT_APP_AUTHOR_ADDRESS
 const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
 
@@ -218,7 +218,7 @@ function DeployContract({wallet}) {
                   <h1 className="m-0 p-0" style={{color:"#ffffff"}}>{deployStatus === "undeployed" ? "Deploying...":null}</h1>  
                   <h1 className="m-0 p-0" style={{color:"#ffffff"}}>{deployStatus === "deployed" && (pauseStatus !== "pause" && pauseStatus !== "unpause") ? "Withdrawing money...":null}</h1>  
                   <h1 className="m-0 p-0" style={{color:"#ffffff"}}>{deployStatus === "deployed" && pauseStatus === "pause" ? "Pausing...":null}</h1>  
-                  <h1  className="m-0 p-0" style={{color:"#ffffff"}}>{deployStatus === "deployed" && pauseStatus === "unpause" ? "Unpausing...":null}</h1>  
+                  <h1 className="m-0 p-0" style={{color:"#ffffff"}}>{deployStatus === "deployed" && pauseStatus === "unpause" ? "Unpausing...":null}</h1>  
               </Card>
           </Modal>
           <div className='w-100 pr-5'>
@@ -229,10 +229,10 @@ function DeployContract({wallet}) {
             deployStatus === "deployed"
             ?
             <div className='homepage_items'>
-                <Button onClick={handleWithdraw}>withdraw</Button>
-                <Button className='ml-5' onClick={handlePause}>Pause</Button>
-                <Button className='ml-5' onClick={handleUnpause}>Unpause</Button>
-                <h3 className='mt-5'>You have deployed your contract! Press withdraw Button to withdraw all money!</h3>
+                <h3 className='mt-5 mb-5 font-weight-light'>You have deployed your contract! Press withdraw Button to withdraw all money!</h3>
+                <Button className="ownerpage_button" onClick={handleWithdraw}>Withdraw</Button>
+                <Button className="ownerpage_button" onClick={handlePause}>Pause</Button>
+                <Button className="ownerpage_button" onClick={handleUnpause}>Unpause</Button>
             </div>
             :
             null
@@ -241,8 +241,8 @@ function DeployContract({wallet}) {
             deployStatus === "undeployed"
             ?
             <div className='homepage_items'>
-                <Button onClick={handleDeploy}>deploy</Button>
-                <h3 className='mt-5'>Press deploy Button to deploy your contract!</h3>
+                <h3 className='mt-5 mb-5 font-weight-light'>Press deploy Button to deploy your contract!</h3>
+                <Button className="ownerpage_button" onClick={handleDeploy}>deploy</Button>
             </div>
             :
             null

@@ -20,7 +20,7 @@ function PortalM() {
       post
       owner
       />
-      <div className='container'>
+      <div className={window.innerWidth>1200?'container':''}>
         <Row>
           <Colxx xxs="2" md="3" style={{maxWidth:"220px"}} className="p-0">
             <Sidebar/>      

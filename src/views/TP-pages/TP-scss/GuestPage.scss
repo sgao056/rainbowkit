@@ -21,9 +21,7 @@ ul{
     top:100px;
     right:0;
     background-image:radial-gradient(ellipse farthest-side at top, rgba(80, 154, 185, 1),rgba(52, 58, 64, 0.2), rgba(52, 58, 64, 0));
-    @media screen and (max-width: 992px) {
-        top:150px;
-    }
+
 }
 .background_light_post{
     z-index:0;
@@ -42,9 +40,9 @@ ul{
 .guest_header{
     background-color: #1a1a1a;
     height:$guest_header_lg;
-    @media screen and (max-width: 992px) {
-        height:$guest_header_sm;
-    }
+    // @media screen and (max-width: 992px) {
+    //     height:$guest_header_sm;
+    // }
     .guest_header_box{
         position:relative;
         flex-direction:column;
