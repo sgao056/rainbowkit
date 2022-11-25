@@ -41,7 +41,6 @@ function QuillEditor(props) {
   
   useEffect(async()=>{
     const totalArray = await alchemy.nft.getNftsForContract(tokenAddress)
-    console.log(totalArray)
     setTokens(totalArray.nfts)
     setCopyTokens(totalArray.nfts)
   },[])
@@ -175,7 +174,14 @@ function QuillEditor(props) {
         },
         body
       })
-      .then(res=>res.json())
+      .then(res=>{
+        if(!res.ok){
+          alert("System error! Cannot upload files larger than 5MB!");
+          setPending(false)
+          return Promise.reject();
+        }
+        return res.json()
+      })
       .then(res=>{
         insertToEditor(res.name);
       })
@@ -192,11 +198,17 @@ function QuillEditor(props) {
         },
         body
       })
-      .then(res=>res.json())
+      .then(res=>{
+        if(!res.ok){
+          alert("System error! Cannot upload files larger than 10MB!");
+          setPending(false)
+          return Promise.reject();
+        }
+        return res.json()
+      })
       .then(res=>{
         insertToEditor(res.name);
       })
-      
     }
   };
 
@@ -264,7 +276,7 @@ function QuillEditor(props) {
           <h1 style={{color:"#ffffff", marginTop:"20px"}}>Loading...</h1>  
         </Card>
       </Modal>
-      <div style={{ width: "100%", height: enlarged ? "100%":300, position:"relative"}}>
+      <div className="quill-box" style={{ width: "100%", height: enlarged ? "100%":300, position:"relative"}}>
         <div id="toolbar" style={{height:"50px", borderRadius:"10px 10px 0 0", color:"#ffffff !important"}}>
           <img src={logo} className="mr-4" alt="" style={{height:"30px", width:"30px", borderRadius:"15px", position:"relative", float:"left", display:"inline-block"}} />
           <select className="ql-font" style={{zIndex:"50"}} >
