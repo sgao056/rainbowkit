@@ -289,7 +289,9 @@ const Portal = () => {
                                         : item.text}
                                     </h1>
                                     <div className='mt-3 rtl'>
-                                      <Button onClick={()=>{
+                                      <Button 
+                                      style={{border:"none", backgroundColor:"transparent"}}
+                                      onClick={()=>{
                                         const clickArray = []
                                         blogs.forEach((cell)=>{
                                           if(cell.id === item.id){
@@ -302,7 +304,7 @@ const Portal = () => {
                                         })
                                         setBlogs(clickArray)
                                       }}>
-                                        {item.dropdown ? "close":"open"}
+                                        <i className={item.dropdown ? 'simple-icon-size-actual' : 'simple-icon-size-fullscreen'}/>
                                       </Button>
                                     </div>
                                   </Colxx>
@@ -348,7 +350,9 @@ const Portal = () => {
                                         : item.text}
                                     </h1>
                                     <div className='mt-3 rtl'>
-                                    <Button onClick={()=>{
+                                    <Button 
+                                    style={{border:"none", backgroundColor:"transparent"}}
+                                    onClick={()=>{
                                         const clickArray = []
                                         blogs.forEach((cell)=>{
                                           if(cell.id === item.id){
@@ -361,7 +365,7 @@ const Portal = () => {
                                         })
                                         setBlogs(clickArray)
                                       }}>
-                                        {item.dropdown ? "close":"open"}
+                                        <i className={item.dropdown ? 'font-weight-bold simple-icon-size-actual' : 'font-weight-bold simple-icon-size-fullscreen'}/>
                                       </Button>
                                     </div>
                                   </Colxx>

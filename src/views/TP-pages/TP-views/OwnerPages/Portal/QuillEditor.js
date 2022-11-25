@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { 
+  Input,
   Button,
   Dropdown,
   DropdownMenu,
@@ -10,21 +11,43 @@ import {
   Spinner
 } from 'reactstrap';
 import { useQuill } from 'react-quilljs';
+// import { ImageResize } from 'quill-image-resize-module-plus';
 import 'quill/dist/quill.snow.css'; 
 import logo from 'assets/img/portal/eicoLogo.jpg';
 import { filterTime} from 'views/TP-pages/TP-helpers/useTimeStamp';
+import { Network, Alchemy } from "alchemy-sdk";
 
-const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX
+const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
+const fetchPrefix = process.env.REACT_APP_DEP_FETCH_PREFIX;
+const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
+
+const settings = {
+  apiKey: alchemyApikey,
+  network: Network.ETH_MAINNET
+};
+
+const alchemy = new Alchemy(settings);
 
 function QuillEditor(props) {
+  
   const [ pending, setPending ] = useState(false)
+  const [ tokens, setTokens ] = useState([])
+  const [ copyTokens, setCopyTokens ] = useState([])
+  const [ inputValue, setInputValue ] = useState("")
+  const [ selectedToken, setSelectedToken ] = useState(null)
   const [ enlarged, setEnlarged ] = useState(false)
   const [ buttonPined, setButtonPined ] = useState(false)
   const [ dropdownBasicOpen, setDropdownBasicOpen ] = useState(false);
   
+  useEffect(async()=>{
+    const totalArray = await alchemy.nft.getNftsForContract(tokenAddress)
+    console.log(totalArray)
+    setTokens(totalArray.nfts)
+    setCopyTokens(totalArray.nfts)
+  },[])
   const { quill, quillRef } = useQuill({
     modules: {
-      toolbar: '#toolbar'
+      toolbar: '#toolbar',
     },
     formats: ["video", "link", "image", "font", "size", "bold", 'italic', 'underline',"align"], // Important
   });
@@ -209,6 +232,16 @@ function QuillEditor(props) {
       quill.getModule('toolbar').addHandler('video', selectLocalVideo);
     }
   }, [quill]);
+
+  const handleSearchNft = (text) =>{
+    let newArray =  copyTokens
+    newArray = copyTokens.filter(item=>{
+        const matchArray = item.tokenId.toString().match(new RegExp(text.replace(/\s/g,''),'gi'))
+        return !!matchArray
+    })
+    setTokens(newArray)
+  }
+
   return (
     <div style={{marginBottom:"100px", height:enlarged ? "700px":"300px"}}>
     <Modal
@@ -282,6 +315,7 @@ function QuillEditor(props) {
             </Button>
         </div>
         <div 
+          className='mark-editor'
           ref={quillRef} 
           style={{
             borderRadius:"0 0 10px 10px", 
@@ -305,12 +339,29 @@ function QuillEditor(props) {
         caret 
         style={{position:"absolute", float:"right", bottom:"20px", right:"120px",zIndex:"99", border:"none"}}
         >
-          NFT
+          {selectedToken?`token ID: ${selectedToken.tokenId}`:"NFT"}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem>
-            none
+          <DropdownItem header>
+            <Input 
+            placeholder="Search by token ID here!"
+            value={inputValue}
+            onChange={(e)=>{
+              setInputValue(e.target.value)
+              handleSearchNft(e.target.value)
+            }}/>
           </DropdownItem>
+          {
+            tokens.map((item)=>{
+              return(
+                <DropdownItem 
+                key={item.tokenId}
+                onClick={()=>{setSelectedToken(item)}}>
+                  token ID: {item.tokenId}
+                </DropdownItem>  
+              )
+            }) 
+          }
         </DropdownMenu>
         </Dropdown>
         <Button

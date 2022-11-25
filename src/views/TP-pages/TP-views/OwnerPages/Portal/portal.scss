@@ -6,9 +6,13 @@ p{
     stroke: #fff;
 
 }
-
-.ql-editor{
-    height: 100% !important;
+.mark-editor{
+    .ql-editor{
+        height: 100% !important;
+        img{
+            max-width: 300px !important;
+        }
+    }
 }
 
 .ql-toolbar .ql-fill {
@@ -98,4 +102,26 @@ p{
 
 .card:hover{
     cursor: pointer;
+}
+
+.dropdown{
+    .dropdown-menu{
+        height:400px;
+        overflow-y: scroll;
+        width:300px;
+    }
+    ::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      /* Track */
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 2px grey; 
+        border-radius: 4px;
+      }
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: white;
+        border-radius: 10px;
+      }
 }

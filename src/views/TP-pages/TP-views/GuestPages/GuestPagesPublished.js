@@ -45,56 +45,59 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
     fetch(`${fetchPrefix}/post/`, {
       method: 'GET',
     })
-      .then((response) => response.json())
-      .then(async (response) => {
-        let unpinedArray = [];
-        let pinedArray = [];
-        await response.forEach((item) => {
-          if (item.drafted !== true) {
-            const cfg = {};
-            const converter = new QuillDeltaToHtmlConverter(
-              JSON.parse(item.delta),
-              cfg
-            );
-            const cover = JSON.parse(item.delta).find((cell) => {
-              return cell.insert.image || cell.insert.video
-                ? cell.insert.image || cell.insert.video
-                : null;
+    .then((response) => response.json())
+    .then(async (response) => {
+      let unpinedArray = [];
+      let pinedArray = [];
+      await response.forEach((item) => {
+        if (item.drafted !== true) {
+          const cfg = {};
+          const converter = new QuillDeltaToHtmlConverter(
+            JSON.parse(item.delta),
+            cfg
+          );
+          const cover = JSON.parse(item.delta).find((cell) => {
+            return cell.insert.image || cell.insert.video
+              ? cell.insert.image || cell.insert.video
+              : null;
+          });
+          if (item.pined) {
+            pinedArray.push({
+              text: item.text,
+              content: converter.convert(),
+              id: item.id,
+              cover,
+              created: item.created,
+              edited: item.edited ? item.edited : null,
+              delta: JSON.stringify(item.delta),
+              pined: item.pined,
+              viewed: item.viewed,
+              drafted: item.drafted,
             });
-            if (item.pined) {
-              pinedArray.push({
-                text: item.text,
-                content: converter.convert(),
-                id: item.id,
-                cover,
-                created: item.created,
-                edited: item.edited ? item.edited : null,
-                delta: JSON.stringify(item.delta),
-                pined: item.pined,
-                viewed: item.viewed,
-                drafted: item.drafted,
-              });
-            } else {
-              unpinedArray.push({
-                text: item.text,
-                content: converter.convert(),
-                id: item.id,
-                cover,
-                created: item.created,
-                edited: item.edited ? item.edited : null,
-                delta: JSON.stringify(item.delta),
-                drafted: item.drafted,
-                pined: item.pined,
-                viewed: item.viewed,
-              });
-            }
+          } else {
+            unpinedArray.push({
+              text: item.text,
+              content: converter.convert(),
+              id: item.id,
+              cover,
+              created: item.created,
+              edited: item.edited ? item.edited : null,
+              delta: JSON.stringify(item.delta),
+              drafted: item.drafted,
+              pined: item.pined,
+              viewed: item.viewed,
+            });
           }
-        });
-        pinedArray = timeSequence(pinedArray);
-        unpinedArray = timeSequence(unpinedArray);
-        const newArray = pinedArray.concat(unpinedArray);
-        setBlogs(newArray);
+        }
       });
+      pinedArray = timeSequence(pinedArray);
+      unpinedArray = timeSequence(unpinedArray);
+      const newArray = pinedArray.concat(unpinedArray);
+      setBlogs(newArray);
+    })
+    .catch((err)=>{
+      alert("Fail to fetch data from database!")
+    })
 
     await alchemy.nft.getOwnersForContract(tokenAddress)
     .then(
