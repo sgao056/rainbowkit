@@ -478,14 +478,12 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                         <div>
                           <div>
                             <p>
-                              EICO18周年贡献者誉勋章。此NFT荣誉勋章颁发给每一位曾经在EICO工作的伙伴，18年间EICO所创造的设计价值与品牌影响力，少不了每一位EICO人的贡献。
+                              EICO 18th Anniversary Contributor Medal of Honor. This NFT Medal of Honor is awarded to every partner who used to work in EICO. The design value and brand influence created by EICO in the past 18 years cannot do without the contribution of every EICO person.                            
                             </p>
                           </div>
                           <div>
                             <p>
-                              2004年，EICO Design
-                              Studio在北京成立；2012年，EICO厦门办公室成立；2014年，EICO上海办公室成立；2016年，EICO
-                              SPACE空间设计办公室在上海成立。EICO一路向前，服务了上千家海内外品牌和公司，影响了“数亿级”用户产品体验，也很感激有幸与各位并肩努力过。
+                              In 2004, EICO Design Studio was established in Beijing; in 2012, EICO Xiamen Office was established; in 2014, EICO Shanghai Office was established; in 2016, EICO SPACE Space Design Office was established in Shanghai. EICO has been moving forward, serving thousands of brands and companies at home and abroad, and affecting the product experience of hundreds of millions of users. I am also very grateful to have worked side by side with you.                            
                             </p>
                           </div>
                         </div>
@@ -497,10 +495,10 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                     <div className="d-flex">
                       <h6 className="guest_NFT_right_tag">NFT</h6>
                       <ul>
-                        <li>EICO年度礼品；</li>
-                        <li>可访问EICO线下活动；</li>
-                        <li>可访问EICO线上分享会；</li>
-                        <li>可加入EICO微信群。</li>
+                        <li>ICO annual gift;</li>
+                        <li>Access to EICO offline activities;</li>
+                        <li>Access to EICO online sharing sessions;</li>
+                        <li>You can join the EICO WeChat group.</li>
                       </ul>
                     </div>
 
@@ -509,21 +507,21 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                       <Colxx xxs="12">
                         <ul className="guest_NFT_right_details mb-0">
                           <li>
-                            请提交您的信息到表单
+                            Please complete the form &nbsp;
                             <a href="https://j8lkqu0xswo.typeform.com/to/gqs72Weg">
                               https://j8lkqu0xswo.typeform.com/to/gqs72Weg
                             </a>
-                            ，我们会有同事进行审核，截止到2022年11月8日上午10:00；
+                            &nbsp;and our colleagues will review it until 10:00 am on November 8, 2022;
                           </li>
                           <li>
-                            2022年11月11日后，授权相应钱包地址登录即可领取
+                            After November 11, 2022, authorize the corresponding wallet address to log in to claim;
                           </li>
                           <li>
-                            更多指引信息请查看《EICO Contributor NFT 指引手册
+                            For more guidance information, please refer to the EICO Contributor NFT Guidebook
                             <a href="https://www.notion.so/EICO-Contributor-NFT-FAQ-14f1d86680dd4cab8a979f21cdba83b2">
-                              https://www.notion.so/EICO-Contributor-NFT-FAQ-14f1d86680dd4cab8a979f21cdba83b2
+                              &nbsp;https://www.notion.so/EICO-Contributor-NFT-FAQ-14f1d86680dd4cab8a979f21cdba83b2
                             </a>
-                            。
+                            .
                           </li>
                         </ul>
                       </Colxx>
@@ -595,9 +593,9 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                 <img src={logo} alt="logo" className="guest_about_logo" />
               </Colxx>
               <Colxx xxs="10" lg="4" className="pt-5">
-                <p className="m-0 p-0">EICO是数字化策略与产品专家。</p>
+                <p className="m-0 p-0">EICO is an expert in digital strategy and products.</p>
                 <p className="m-0 p-0">
-                  我们围绕数字产品与空间，发掘业务的差异化价值，从而创造品牌的创新机遇。我们善于深入业务，利用丰富的行业通理产品经验打造落地产品。
+                We explore the differentiated value of business around digital products and space, so as to create brand innovation opportunities. We are good at in-depth business, and use our rich experience in industry generalization products to create landing products.
                 </p>
               </Colxx>
             </Row>

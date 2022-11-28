@@ -26,10 +26,6 @@ const ViewUserPages = React.lazy(() =>
   import( './views/TP-pages/TP-views/UserPages/UserPages')
 );
 
-const ViewGuestPages = React.lazy(() =>
-  import( './views/TP-pages/TP-views/GuestPages/GuestPages')
-);
-
 const ViewGuestPagesPublished = React.lazy(() =>
   import( './views/TP-pages/TP-views/GuestPages/GuestPagesPublished')
 );
