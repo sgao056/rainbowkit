@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Login, Logout } from 'redux/actions';
 import { connect } from 'react-redux';
 import linkto from 'assets/img/icons/Link.png';
-import { Badge, Row, Card, Button, TabContent, TabPane } from 'reactstrap';
+import { Badge, Row, Card, Button, TabContent, TabPane, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { Colxx } from 'components/common/CustomBootstrap';
 import Blockies from 'react-blockies';
@@ -18,7 +18,6 @@ import { timeDiff, timeSequence } from 'views/TP-pages/TP-helpers/useTimeStamp';
 import '../../TP-scss/GuestPage.scss';
 import '../../TP-scss/login.scss';
 import { externalLinks } from '../../TP-constants/guestPage';
-import useVerifyMetadata from '../../TP-helpers/useVerifyMetadata';
 
 const tokenAddress = process.env.REACT_APP_TOKEN_ADDRESS;
 const alchemyApikey = process.env.REACT_APP_ALCHEMY_APIKEY;
@@ -32,6 +31,7 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
+  const [text, setText] = useState([{text:1},{text:2}])
   const [activeTab, setActiveTab] = useState('NFT');
   const [ownerList, setOwnerList] = useState([]);
   const [dropdownBasicOpen, setDropdownBasicOpen] = useState(false);
@@ -39,6 +39,14 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
   const [modalToggle, setModalToggle] = useState(false);
   const [blogs, setBlogs] = useState();
   const { isConnected, address } = useAccount();
+  
+  useEffect(()=>{
+    console.log(blogs)
+  },[blogs])
+
+  useEffect(()=>{
+    console.log(text.text)
+  },[text])
 
   useEffect(async() => {
     // insert blogs
@@ -93,7 +101,23 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
       pinedArray = timeSequence(pinedArray);
       unpinedArray = timeSequence(unpinedArray);
       const newArray = pinedArray.concat(unpinedArray);
-      setBlogs(newArray);
+      newArray.forEach(blog=>{
+        blog.newComment = ""
+        fetch(`${fetchPrefix}/comments/${blog.id}`, {
+          method: 'GET',
+        })
+        .then(res=>{
+          if(!res.ok){
+            alert('System error!')
+            return Promise.reject();
+          }
+          return res.json()
+        })
+        .then(res=>{
+          blog.comment = res
+        })
+      })
+      setBlogs(newArray)
     })
     .catch((err)=>{
       alert("Fail to fetch data from database!")
@@ -102,11 +126,10 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
     await alchemy.nft.getOwnersForContract(tokenAddress)
     .then(
       res=>{
-        console.log(res)
         setOwnerList(res && res.owners.length > 0 ? res.owners:[])
       }
     );
-  }, []);
+  },[]);
 
   useEffect(() => {
     if (address && isConnected && ownerList.length>0) {
@@ -155,11 +178,11 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
             const w = window.open('about:blank');
             w.location.href = `https://eico.forging.one/#/post/${id}`;
           } else {
-            alert('2022年11月11日成功领取NFT后，解锁查看本页面全部内容!');
+            alert('After successfully receiving the NFT on November 11, 2022, unlock and view the entire content of this page!');
           }
         });
     } else {
-      alert('2022年11月11日成功领取NFT后，解锁查看本页面全部内容!');
+      alert('After successfully receiving the NFT on November 11, 2022, unlock and view the entire content of this page!');
     }
   };
 
@@ -182,8 +205,10 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
               style={{ marginTop: window.innerWidth > 992 ? '140px' : 0 }}
             >
               <Colxx xxs="12" lg="6" className="ml-0 mr-0">
-                {blogs
-                  ? blogs.map((item) => {
+                {
+                blogs
+                ? 
+                blogs.map((item) => {
                       return (
                         <>
                           <div
@@ -191,8 +216,9 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                             style={{ flexDirection: 'column' }}
                             className="w-100 d-flex justify-content-center align-items-between blog_item_box ql-editor mt-0 pb-5"
                           >
-                            <Row xxs="11" className="ml-0 mr-0 p-0">
+                            <Row xxs="12" className="ml-0 mr-0 p-0">
                               <Colxx xxs="12" style={{ flexDirection: 'row' }}>
+                                { /* pined, time bar */ }
                                 {item.pined ? (
                                   <div
                                     className="w-100 d-flex align-items-center justify-content-between"
@@ -222,6 +248,8 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                                     </h4>
                                   </div>
                                 )}
+
+                                { /* content */ }
                                 {item.cover ? (
                                   <Card
                                     onClick={() => handleView(item.id)}
@@ -279,9 +307,9 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                                           className="mr-4 "
                                           alt=""
                                           style={{
-                                            height: '30px',
-                                            width: '30px',
-                                            borderRadius: '15px',
+                                            height: '40px',
+                                            width: '40px',
+                                            borderRadius: '20px',
                                             position: 'relative',
                                             float: 'left',
                                             display: 'inline-block',
@@ -344,6 +372,101 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                                     </Row>
                                   </Card>
                                 )}
+
+                                { /* comment */ }
+                                <div  className='mt-5'>
+                                  <h1 className="font-weight-bold mb-4">Comment</h1>
+                                  {
+                                    item && item.comment
+                                    ?
+                                    item.comment.map((singleComment)=>{
+                                      return(
+                                        <Row key={singleComment.commentId} className="pb-3 mb-3" style={{borderBottom:"1px solid #4A4A4A"}}>
+                                          <Colxx xxs="1">
+                                            <Blockies
+                                              seed={singleComment.creator ? singleComment.creator : null}
+                                              size={10}
+                                              scale={10}
+                                              color="#dfe"
+                                              bgColor="#abf"
+                                              spotColor="#abc"
+                                              className="guest_post_comment_image"
+                                            />
+                                          </Colxx>
+                                          <Colxx xxs="11" className="d-flex align-items-center">
+                                            <div className="font-weight-bold">
+                                                <span>{singleComment.creator ? singleComment.creator:"unknown"}</span>
+                                            </div> 
+                                          </Colxx>
+                                          <Colxx xxs="1">
+                                            {null}
+                                          </Colxx>
+                                          <Colxx xxs="11" >
+                                            <div>{singleComment.comment}</div>
+                                            <div className='w-100 d-flex justify-content-between mt-3'>
+                                              <div>
+                                                {
+                                                wallet.wallet && wallet.wallet.toLowerCase() === singleComment.creator.toLowerCase()
+                                                ?
+                                                <Button className="comment_delete_button font-size-lg">
+                                                  Delete
+                                                </Button>
+                                                :
+                                                null
+                                                }
+                                              </div>
+                                              <div>
+                                                {timeDiff(singleComment.createdAt)}
+                                              </div>
+                                            </div>
+                                          </Colxx>
+                                        </Row>
+                                      )
+                                    })
+                                    :
+                                    null
+                                  }
+
+                                  {
+                                    wallet.wallet ? 
+                                    <Row className='mt-3'>
+                                      <Colxx xxs="1">
+                                        <Blockies
+                                          seed={wallet.wallet ? wallet.wallet : null}
+                                          size={10}
+                                          scale={10}
+                                          color="#dfe"
+                                          bgColor="#abf"
+                                          spotColor="#abc"
+                                          className="guest_post_comment_image"
+                                        />
+                                      </Colxx>
+                                      <Colxx xxs="11" className="d-flex align-items-center">
+                                        <div className="font-weight-bold">
+                                            <span>{wallet.wallet ? wallet.wallet:"unknown"}</span>
+                                        </div> 
+                                      </Colxx>
+                                      <Colxx xxs="12">
+                                        <Row className="d-flex justify-content-end">
+                                          <Colxx xxs="1">
+                                            {null}
+                                          </Colxx>
+                                          <Colxx xxs="11">
+                                            <Input 
+                                            // value={item.newComment ? item.newComment:""}
+                                            onChange={(e)=>{}}
+                                            type="textarea"
+                                            placeholder="Please write your comment here..."/>
+                                          </Colxx>
+                                        </Row>
+                                      </Colxx>
+                                      <Colxx xxs="12" className="rtl">
+                                        <Button className='mt-3 pined_mark d-flex justify-content-center align-items-center font-weight-bold'>Post</Button>
+                                      </Colxx>
+                                    </Row>
+                                    : null
+                                  }
+                                </div>
                               </Colxx>
                             </Row>
                           </div>

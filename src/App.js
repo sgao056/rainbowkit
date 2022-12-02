@@ -68,7 +68,7 @@ const App = ({ setLoginPending, wallet, setWallet, clearWallet, ...props}) => {
   useEffect(()=>{
     if(chain){
       if(chain.id !== 1){
-        alert("请在登录后将您的Metamask钱包网络设置为Ethereum！")
+        alert("Network Error! Please reset the network to be Mainnet after you login！")
       }
     }
   },[chain])
@@ -87,7 +87,7 @@ const App = ({ setLoginPending, wallet, setWallet, clearWallet, ...props}) => {
             clearWallet();
             localStorage.clear();
             disconnect();
-            alert('登录超时')
+            alert('Login Timeout!')
             clearInterval(interval)
             setTokenOvertime(true)
             window.location.replace("/#/login")          

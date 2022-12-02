@@ -94,22 +94,28 @@ ul{
 
 .guest_post{
     width:100%;
+    .guest_post_login_image{
+        border: 5px solid white;
+        height:60px !important;
+        width:60px !important;
+        border-radius: 30px;
+        @media screen and (max-width: 992px) {
+            border: 2px solid white;
+            height:40px !important;
+            width:40px !important;
+        }
+    }
+    .guest_post_comment_image{
+        border: 2px solid white;
+        height:30px !important;
+        width:30px !important;
+        border-radius: 15px;
+    }
     .guest_post_login_bar{
         width:390px;
         height:60px;
         @media screen and (max-width: 992px) {
             width:100%;
-        }
-        .guest_post_login_image{
-            border: 5px solid white;
-            height:60px !important;
-            width:60px !important;
-            border-radius: 30px;
-            @media screen and (max-width: 992px) {
-                border: 2px solid white;
-                height:40px !important;
-                width:40px !important;
-            }
         }
         .guest_post_login_info{
             flex-direction: column;
@@ -356,6 +362,7 @@ ul{
     height:40px;
     width:120px;
     font-size: 18px;
+    border-radius: 5px;
     @media screen and (max-width: 992px) {
         height:30px;
         width:80px;
@@ -365,4 +372,16 @@ ul{
 
 .card:hover{
     cursor: pointer;
+}
+.comment_delete_button{
+    background-color: transparent;
+    padding: 0;
+    border:none;
+    height:20px;
+    color:#3e83a1;
+}
+.comment_delete_button:hover{
+    background-color: transparent;
+    border:none;
+    color:#9aa6b2;
 }

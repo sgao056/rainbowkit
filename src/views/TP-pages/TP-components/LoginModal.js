@@ -70,19 +70,19 @@ function LoginModal({setWallet, wallet, ...props}) {
                 ?
                 <div className='p-0 m-0 w-100'>
                     <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                    领取成功 ！
+                    Claim successfully!
                     </h1>
                     <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                    可在个人账户查看此NFT
+                    You can check this NFT in My Account page.
                     </h1>
                 </div>
                 :
                 <div className='p-0 m-0 w-100'>
                     <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                    领取成功 ！
+                    Claim successfully!
                     </h1>
                     <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                    可在个人账户查看此NFT
+                    You can check this NFT in My Account page.
                     </h1>
                 </div>
                 }
@@ -112,19 +112,19 @@ function LoginModal({setWallet, wallet, ...props}) {
                     ?
                     <div className='p-0 m-0 w-100'>
                         <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                        领取失败 ！
+                        Claim failed!
                         </h1>
                         <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                        已领取过NFT
+                            You have alreafy claimed this NFT                        
                         </h1>
                     </div>
                     :
                     <div className='p-0 m-0 w-100'>
                         <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                        领取失败 ！
+                        Claim failed!
                         </h1>
                         <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                        已领取过NFT
+                        You have alreafy claimed this NFT                        
                         </h1>
                     </div>
                     }
@@ -152,19 +152,19 @@ function LoginModal({setWallet, wallet, ...props}) {
                         ?
                         <div className='p-0 m-0 w-100'>
                             <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                            领取失败 ！
+                            Claim failed!
                             </h1>
                             <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                            此账户无可领取NFT
+                            You have no NFT to claim!
                             </h1>
                         </div>
                         :
                         <div className='p-0 m-0 w-100'>
                             <h1 className='w-100 d-flex justify-content-center login_box_items'>
-                            领取失败 ！
+                            Claim failed!
                             </h1>
                             <h1 className='font-weight-light w-100 d-flex justify-content-center login_box_items'>
-                            此账户无可领取NFT
+                            You have no NFT to claim!
                             </h1>
                         </div>
                         }
