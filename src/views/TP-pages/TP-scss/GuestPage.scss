@@ -94,6 +94,13 @@ ul{
 
 .guest_post{
     width:100%;
+    .guest_post_right{
+        position: fixed;
+        left:50%;
+        @media screen and (max-width: 992px) {
+            position:static;
+        }
+    };
     .guest_post_login_image{
         border: 5px solid white;
         height:60px !important;

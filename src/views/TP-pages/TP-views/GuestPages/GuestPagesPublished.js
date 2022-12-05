@@ -263,7 +263,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                           <div
                             key={item.id}
                             style={{ flexDirection: 'column' }}
-                            className="w-100 d-flex justify-content-center align-items-between blog_item_box ql-editor mt-0 pb-5"
+                            className="w-100 d-flex justify-content-center align-items-between blog_item_box ql-editor mt-5 mt-lg-0 pb-5"
                           >
                             <Row xxs="12" className="ml-0 mr-0 p-0">
                               <Colxx xxs="12" style={{ flexDirection: 'row' }}>
@@ -541,7 +541,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                     })
                   : null}
               </Colxx>
-              <Colxx xxs="12" lg="6" className="pl-lg-5 w-100">
+              <Colxx xxs="12" lg="6" className="pl-lg-5 w-100 guest_post_right">
                 {wallet.wallet ? (
                   <div className="mt-5 guest_post_login_bar d-flex align-items-center">
                     {window.innerWidth >= 992 ? (
