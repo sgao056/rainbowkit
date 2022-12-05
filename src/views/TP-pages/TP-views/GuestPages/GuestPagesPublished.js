@@ -31,7 +31,6 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
-  const [text, setText] = useState([{text:1},{text:2}])
   const [activeTab, setActiveTab] = useState('NFT');
   const [ownerList, setOwnerList] = useState([]);
   const [dropdownBasicOpen, setDropdownBasicOpen] = useState(false);
@@ -39,14 +38,6 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
   const [modalToggle, setModalToggle] = useState(false);
   const [blogs, setBlogs] = useState();
   const { isConnected, address } = useAccount();
-  
-  useEffect(()=>{
-    console.log(blogs)
-  },[blogs])
-
-  useEffect(()=>{
-    console.log(text.text)
-  },[text])
 
   useEffect(async() => {
     // insert blogs
@@ -185,6 +176,64 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
       alert('After successfully receiving the NFT on November 11, 2022, unlock and view the entire content of this page!');
     }
   };
+
+  const handlePostComment = (item) => {
+    if(window.confirm("Are you sure you want to publish this comment?")){
+      fetch(`${fetchPrefix}/comments/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('token')).token
+          }`,
+        },
+        body: JSON.stringify({
+          postId: item.postId,
+          creator: item.creator,
+          comment: item.comment,
+          createdAt: JSON.stringify(new Date)
+        }),
+      })
+      .then((res) => {
+        if(!res.ok){
+          if (res.status === 403) {
+            alert('Timeout! Please login again!');
+            return Promise.reject();
+          }
+          alert('System Error!');
+          return Promise.reject();
+        }
+        return res.json();
+      })
+      .then(()=>{
+        alert('Comment has been published successfully!');
+        window.location.reload();
+      })
+    }
+  }
+
+  const handleDeleteComment = (commentId) => {
+    if(commentId && window.confirm("Are you sure you want to delete this comment?"))
+    fetch(`${fetchPrefix}/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem('token')).token
+        }`,
+      },
+    })
+    .then((res) => {
+      if(!res.ok){
+        alert("System problem!")
+        return Promise.reject();
+      }
+      return res.json()
+    })
+    .then((res) => {
+      alert('Comment has been deleted successfully!');
+      window.location.reload();
+    });
+  }
 
   return (
     <>
@@ -408,7 +457,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                                                 {
                                                 wallet.wallet && wallet.wallet.toLowerCase() === singleComment.creator.toLowerCase()
                                                 ?
-                                                <Button className="comment_delete_button font-size-lg">
+                                                <Button className="comment_delete_button font-size-lg" onClick={()=>{handleDeleteComment(singleComment.commentId)}}>
                                                   Delete
                                                 </Button>
                                                 :
@@ -453,15 +502,32 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
                                           </Colxx>
                                           <Colxx xxs="11">
                                             <Input 
-                                            // value={item.newComment ? item.newComment:""}
-                                            onChange={(e)=>{}}
+                                            value={blogs.find(blog=>{return(blog.id === item.id)}).newComment}
+                                            onChange={(e)=>{
+                                              const newArray = [...blogs]
+                                              const index = newArray.indexOf(item)
+                                              newArray.splice(index,1,{
+                                                ...newArray[index],
+                                                newComment:e.target.value,
+                                              })
+                                              setBlogs(newArray)
+                                            }}
+                                            className="mt-3 mb-3"
                                             type="textarea"
                                             placeholder="Please write your comment here..."/>
                                           </Colxx>
                                         </Row>
                                       </Colxx>
                                       <Colxx xxs="12" className="rtl">
-                                        <Button className='mt-3 pined_mark d-flex justify-content-center align-items-center font-weight-bold'>Post</Button>
+                                        <Button 
+                                        onClick={()=>{handlePostComment({
+                                          postId:item.id,
+                                          creator:wallet.wallet,
+                                          comment:blogs.find(blog=>{return(blog.id === item.id)}).newComment
+                                        })}}
+                                        className='mt-3 pined_mark d-flex justify-content-center align-items-center font-weight-bold'>
+                                          Post
+                                        </Button>
                                       </Colxx>
                                     </Row>
                                     : null

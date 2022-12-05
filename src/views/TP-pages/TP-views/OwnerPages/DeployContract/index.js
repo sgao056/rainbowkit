@@ -57,7 +57,6 @@ function DeployContract({wallet}) {
       .then(async res=>{
         await res.deployTransaction.wait()
         .then(async (deployRes)=>{
-          console.log(deployRes, deployRes.contractAddress)
           const w = window.open('about:blank');
           w.location.href= `${popAddress}${deployRes.contractAddress}`
           fetch(`${fetchPrefix}/deploy/1`,{
