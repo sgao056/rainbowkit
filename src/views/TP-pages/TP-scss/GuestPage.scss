@@ -181,22 +181,22 @@ ul{
         margin-bottom: 200px;
     }
     .guest_NFT_row{
+        display: flex;
+        justify-content: center;
         .guest_NFT_left_box{
             margin-top: 100px;
+            max-width: 600px;
+            @media screen and (max-width: 992px) {
+                max-width:auto;
+            }
             .guest_NFT_left_nft{
-                left:auto;
-                right:auto;
-                top:150px;
-                position: fixed;
-                height:450px;
-                width:450px;
+                width:100%;
                 z-index: 99;
                 border-radius: 40px;
                 @media screen and (max-width: 992px) {
                     top:0;
                     position:static;
-                    height:300px;
-                    width:300px;
+                    width:100%;
                     z-index: 99;
                     border-radius: 40px;
                 }
@@ -206,10 +206,8 @@ ul{
             margin-top: 100px;
             min-width: 300px;
             max-width: 390px;
-    
-            .guest_dash{
-                border-top: thin solid #888888;
-                height:20px;
+            @media screen and (max-width: 992px) {
+                max-width:auto;
             }
             .guest_NFT_right_tag{
                 border: 1px solid;
@@ -218,35 +216,6 @@ ul{
                 margin-right: 30px;
                 h5{
                     margin-top:0 !important;
-                }
-            }
-    
-            .guest_NFT_right_claim{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                height: 45px;
-                background: linear-gradient(-45deg, transparent 12px, #ffffff 0) right,
-                                linear-gradient(135deg, transparent 12px, #ffffff 0) left;
-                background-size: 51% 100%;
-                background-repeat: no-repeat;
-            }
-    
-            .guest_NFT_right_button{
-                color:#ffffff;
-                border:none;
-                border-radius: 0;
-                width: calc(100% - 4px);
-                height: calc(100% - 4px);
-                background: 
-                    linear-gradient(-45deg, transparent 12px, black 0) right,
-                    linear-gradient(135deg, transparent 12px, black 0) left;
-                background-size: 51% 100%;
-                background-repeat: no-repeat;
-                z-index: 99;
-                @media screen and (max-width: 992px) {
-                    background-size: 51% 100%;
                 }
             }
     
@@ -391,4 +360,60 @@ ul{
     background-color: transparent;
     border:none;
     color:#9aa6b2;
+}
+
+.guest_NFT_right_claim{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(-45deg, transparent 18px, #ffffff 0) right,
+                    linear-gradient(135deg, transparent 18px, #ffffff 0) left;
+    background-size: 51% 100%;
+    background-repeat: no-repeat;
+
+    .guest_NFT_right_button{
+        color:#ffffff;
+        border:none;
+        border-radius: 0;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        background: 
+            linear-gradient(-45deg, transparent 18px, black 0) right,
+            linear-gradient(135deg, transparent 18px, black 0) left;
+        background-size: 51% 100%;
+        background-repeat: no-repeat;
+        z-index: 99;
+        @media screen and (max-width: 992px) {
+            background-size: 51% 100%;
+        }
+    }
+
+    .guest_NFT_right_button:hover{
+        color:#ffffff;
+        border:none;
+        border-radius: 0;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        background: 
+            linear-gradient(-45deg, transparent 18px, black 0) right,
+            linear-gradient(135deg, transparent 18px, black 0) left;
+        background-size: 51% 100%;
+        background-repeat: no-repeat;
+        z-index: 99;
+        @media screen and (max-width: 992px) {
+            background-size: 51% 100%;
+        }
+    }
+
+    .btn-secondary:not(:disabled):not(.disabled):active{
+        background: transparent;
+    }
+}
+
+.guest_dash{
+    margin-top:20px;
+    border-top: thin solid #888888;
+    height:20px;
 }

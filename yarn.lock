@@ -14737,6 +14737,11 @@ react-sortablejs@^6.0.0:
     classnames "2.3.1"
     tiny-invariant "1.2.0"
 
+react-step-progress@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-step-progress/-/react-step-progress-1.0.3.tgz#8c93a7e4f5fd020888873944534cd97ab7641535"
+  integrity sha512-AsebjdBZsoZzZuN50p24TMwKt8JVdyhsAPL/xvpY4c3dpQ9XBiRcZlADD0BoKP3iIxpEm+7ufwITmwY66FEfjQ==
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"

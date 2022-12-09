@@ -211,7 +211,7 @@ const GuestPages = ({wallet, setWallet, clearWallet, ...props}) => {
                         <h4 className='m-0'>ETH</h4>
                         <h5 className='font-weight-light m-0'>{wallet.balance ? wallet.balance.formatted : 0 }</h5>
                       </div>
-                      <div className='d-flex justify-content-end align-items-center'>{wallet.balance ? `$${(currentUSD * parseFloat(wallet.balance.formatted.slice(0,-4))).toFixed(2)} USD`:"$0 USD"}</div>
+                      <div className='d-flex justify-content-end align-items-center'>{wallet.balance ? `$${(currentUSD * parseFloat(wallet.balance.formatted)).toFixed(2)} USD`:"$0 USD"}</div>
                     </div>
                   </div>
                 </Colxx>

@@ -6,15 +6,17 @@ import { Badge, Row, Card, Button, TabContent, TabPane, Input } from 'reactstrap
 import { withRouter } from 'react-router-dom';
 import { Colxx } from 'components/common/CustomBootstrap';
 import Blockies from 'react-blockies';
+import { useAccount } from 'wagmi';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { MdArrowForwardIos } from 'react-icons/md';
-import nftVideo from 'assets/video/founderpass.mp4';
+
 import logo from 'assets/img/portal/eicoLogo.jpg';
 import LoginModal from 'views/TP-pages/TP-components/LoginModal';
-import { useAccount } from 'wagmi';
 import { Network, Alchemy } from "alchemy-sdk";
 import GuestHeader from 'views/TP-pages/TP-components/CommonHeader';
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { timeDiff, timeSequence } from 'views/TP-pages/TP-helpers/useTimeStamp';
+
+import NFTTab from './NFTTab';
 import '../../TP-scss/GuestPage.scss';
 import '../../TP-scss/login.scss';
 import { externalLinks } from '../../TP-constants/guestPage';
@@ -135,14 +137,6 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
     }
   }, [ownerList]);
 
-  const handleClaim = () => {
-    if (localStorage.getItem('auth')) {
-      setModalToggle(true);
-    } else {
-      props.history.push('/login');
-    }
-  };
-
   const handleView = async (id) => {
     if (wallet.wallet) {
       await fetch(`${fetchPrefix}/post/${id}`, {
@@ -247,6 +241,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
       />
       <div className="guest_page">
         <TabContent activeTab={activeTab} className="container">
+          
           {/* Post */}
           <TabPane tabId="Post" className="guest_post">
             <Row
@@ -628,147 +623,7 @@ const GuestPages = ({ wallet, setWallet, clearWallet, ...props }) => {
 
           {/* NFT */}
           <TabPane tabId="NFT" className="guest_NFT">
-              <Row className=" guest_NFT_row">
-                <Colxx
-                  xxs="12"
-                  lg="6"
-                  className="guest_NFT_left_box d-flex justify-content-center"
-                >
-                  <video
-                    className="guest_NFT_left_nft"
-                    autoPlay
-                    loop
-                    muted
-                    controls
-                    controlsList="nodownload"
-                    playsInline
-                    preload="metadata"
-                  >
-                    <source src={nftVideo} type="video/mp4" />
-                    <track
-                      src="captions_en.vtt"
-                      kind="captions"
-                      srcLang="en"
-                      label="english_captions"
-                    />
-                  </video>
-                </Colxx>
-                <Colxx
-                  xxs="12"
-                  lg="6"
-                  className="d-flex justify-content-center justify-content-lg-start"
-                >
-                  <div className="guest_NFT_right_box">
-                    <h5>Description:</h5>
-                    <div className="guest_dash" />
-                    <div className="d-flex">
-                      <div className="d-flex">
-                        <h6 className="guest_NFT_right_tag">NFT</h6>
-                        <div>
-                          <div>
-                            <p>
-                              EICO 18th Anniversary Contributor Medal of Honor. This NFT Medal of Honor is awarded to every partner who used to work in EICO. The design value and brand influence created by EICO in the past 18 years cannot do without the contribution of every EICO person.                            
-                            </p>
-                          </div>
-                          <div>
-                            <p>
-                              In 2004, EICO Design Studio was established in Beijing; in 2012, EICO Xiamen Office was established; in 2014, EICO Shanghai Office was established; in 2016, EICO SPACE Space Design Office was established in Shanghai. EICO has been moving forward, serving thousands of brands and companies at home and abroad, and affecting the product experience of hundreds of millions of users. I am also very grateful to have worked side by side with you.                            
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h5 className="mt-5">Reward:</h5>
-                    <div className="guest_dash" />
-                    <div className="d-flex">
-                      <h6 className="guest_NFT_right_tag">NFT</h6>
-                      <ul>
-                        <li>ICO annual gift;</li>
-                        <li>Access to EICO offline activities;</li>
-                        <li>Access to EICO online sharing sessions;</li>
-                        <li>You can join the EICO WeChat group.</li>
-                      </ul>
-                    </div>
-
-                    <div className="guest_dash" />
-                    <Row className="d-flex">
-                      <Colxx xxs="12">
-                        <ul className="guest_NFT_right_details mb-0">
-                          <li>
-                            Please complete the form &nbsp;
-                            <a href="https://j8lkqu0xswo.typeform.com/to/gqs72Weg">
-                              https://j8lkqu0xswo.typeform.com/to/gqs72Weg
-                            </a>
-                            &nbsp;and our colleagues will review it until 10:00 am on November 8, 2022;
-                          </li>
-                          <li>
-                            After November 11, 2022, authorize the corresponding wallet address to log in to claim;
-                          </li>
-                          <li>
-                            For more guidance information, please refer to the EICO Contributor NFT Guidebook
-                            <a href="https://www.notion.so/EICO-Contributor-NFT-FAQ-14f1d86680dd4cab8a979f21cdba83b2">
-                              &nbsp;https://www.notion.so/EICO-Contributor-NFT-FAQ-14f1d86680dd4cab8a979f21cdba83b2
-                            </a>
-                            .
-                          </li>
-                        </ul>
-                      </Colxx>
-                      <Colxx
-                        xxs="12"
-                        className="d-flex justify-content-end mt-4"
-                      >
-                        <div
-                          className="guest_NFT_right_claim"
-                          style={{ width: '50%', minWidth: '150px' }}
-                        >
-                          <Button
-                            className="guest_NFT_right_button"
-                            onClick={handleClaim}
-                          >
-                            <h2 className="m-0">Claim</h2>
-                          </Button>
-                        </div>
-                      </Colxx>
-                    </Row>
-
-                    <div className="d-flex justify-content-between mt-5">
-                      <h5 className="d-flex justify-content-between align-items-center">
-                        Holder board:
-                      </h5>
-                      <h5 className="d-flex justify-content-between align-items-center font-weight-light">
-                        {ownerList.length} holders
-                      </h5>
-                    </div>
-                    <div className="guest_dash" />
-                    <Row>
-                      {ownerList.map((item) => {
-                            return (
-                              <Colxx
-                                key={item}
-                                xxs="3"
-                                className="m-0 p-0 guest_NFT_holders_cell"
-                              >
-                                <Blockies
-                                  seed={item}
-                                  size={10}
-                                  scale={10}
-                                  color="#dfe"
-                                  bgColor="#abf"
-                                  spotColor="#abc"
-                                  className="m-2 guest_NFT_holders_blockie"
-                                />
-                                <p className="m-0 p-0">
-                                  <span>{item.substring(0, 4)}</span>
-                                  <span>...{item.slice(-4)}</span>
-                                </p>
-                              </Colxx>
-                            );
-                          })}
-                    </Row>
-                  </div>
-                </Colxx>
-              </Row>
+            <NFTTab ownerList={ownerList}/>
           </TabPane>
 
           {/* About */}
